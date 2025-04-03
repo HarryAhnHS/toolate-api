@@ -97,14 +97,14 @@ def get_batch_query():
             url
             createdAt
             votesCount
-            topics(first: 3) {{
+            topics(first: 5) {{
               edges {{
                 node {{
                   name
                 }}
               }}
             }}
-            comments(first: 3, order: VOTES_COUNT) {{
+            comments(first: 5, order: VOTES_COUNT) {{
               edges {{
                 node {{
                   body
@@ -182,10 +182,6 @@ def main():
         # Advance cursor
         page_info = result["data"]["posts"]["pageInfo"]
         cache_map["after"] = page_info["endCursor"]
-
-        # Save state
-        save_posts(list(existing_map.values()))
-        save_cache()
         print(f"✅ Stored {len(existing_map)} unique entries so far.")
 
         # EDGE: Stop if end of posts reached
@@ -195,6 +191,11 @@ def main():
 
         # Polite delay
         time.sleep(POLITE_DELTA)
+    
+    # At each exit, save state and cache
+    save_posts(list(existing_map.values()))
+    print(f"🔁 Terminated! Saving {len(existing_map)} unique entries to {OUTPUT_FILE}.")
+    save_cache()
 
 
 if __name__ == "__main__":
