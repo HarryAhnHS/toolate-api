@@ -135,7 +135,7 @@ def main():
     load_cache()
     existing_map = {p["id"]: p for p in load_existing_posts()}
 
-    print("🔁 Infinite Scraper started. Press [q] + [enter] anytime to quit gracefully.\n")
+    print("🔁 Infinite Scraper started. Press [ctrl] + [c] anytime to quit gracefully.\n")
     # Infinite crawl loop
     while True:
         print(f"\n🕒 Batch {cache_map['batch_count']} started at {time.strftime('%Y-%m-%d %H:%M:%S')}")
@@ -147,17 +147,6 @@ def main():
             wait_time = max(wait_time, 0)  # EDGE: avoid negative wait
             print(f"⏳ Waiting {int(wait_time)}s for rate limit reset...")
             time.sleep(wait_time + POLITE_DELTA)
-
-        # Check if user wants to quit (UNIX only)
-        if os.name == 'posix':
-            import select
-            print("⏳ Listening for quit signal... ", end="", flush=True)
-            i, _, _ = select.select([sys.stdin], [], [], 1)
-            if i:
-                user_input = sys.stdin.readline().strip().lower()
-                if user_input == "q":
-                    print("👋 Quit signal received.")
-                    break
 
         # Run the query
         query = get_batch_query(cache_map["after"])
