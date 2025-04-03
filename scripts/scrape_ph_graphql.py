@@ -1,15 +1,16 @@
 import os, json
 import time
 import requests
+import signal, sys
 from app.utils.ph_auth import get_cached_token
 
 # Config - each post crawl takes 10 complexity credits - 6250 per 15 minutes
 GRAPHQL_URL = "https://api.producthunt.com/v2/api/graphql"
 EXTERNAL_DATE_THRESHOLD = "2023-01-01T00:00:00Z"
 BATCH_SIZE = 10
-MAX_BATCHES = 1
-OUTPUT_FILE = "data/scrapes/ph_ai.json"
-CURSOR_FILE = "data/scrapes/ph_ai_cursor.json"
+MAX_BATCHES = 100
+OUTPUT_FILE = "app/data/scrapes/ph_ai_db.json"
+CURSOR_FILE = "app/data/scrapes/ph_ai_cursor_cache.json"
 
 HEADERS = {
     "Accept": "application/json",
@@ -17,6 +18,10 @@ HEADERS = {
     "Authorization": f"Bearer {get_cached_token()}",
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
 }
+
+# Globals to use in SIGINT handler
+existing_map = {}
+after_cursor = None
 
 # OS helpers
 def load_cursor():
@@ -99,14 +104,26 @@ def get_batch_query(after_cursor=None):
     }}
     """
 
+# Graceful shutdown on Ctrl+C
+def handle_exit(signum, frame):
+    print("\n⚠️ Interrupted. Saving current state...")
+    save_posts(list(existing_map.values()))
+    save_cursor(after_cursor)
+    print("✅ State saved. Exiting.")
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, handle_exit)
+
 def main():
+    global existing_map, after_cursor
+
     after_cursor = load_cursor()
     existing_map = {p["id"]: p for p in load_existing_posts()}
 
     # Collect posts from new batches
     for i in range(MAX_BATCHES):
         print(f"Fetching batch {i+1}")
-        query = get_batch_query()
+        query = get_batch_query(after_cursor)
         result, remainingCredits = make_graphql_request(query)
         if not result:
             print("Stopping early due to rate limits or failure.")

@@ -1,0 +1,452 @@
+[
+  {
+    "id": "945848",
+    "name": "oMoo",
+    "description": "oMoo is an AI-driven haptic music player that can let everyone touch the pulse, texture, and rhythm of music on their phones. We want to bring the power and beauty of music to everyone, including people who are deaf or hard of hearing.",
+    "website": "https://www.producthunt.com/r/JXTBXGZHLI6SZ4?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "url": "https://www.producthunt.com/posts/omoo?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "createdAt": "2025-04-03T07:01:00Z",
+    "topics": {
+      "edges": [
+        {
+          "node": {
+            "name": "Music"
+          }
+        },
+        {
+          "node": {
+            "name": "Artificial Intelligence"
+          }
+        },
+        {
+          "node": {
+            "name": "Digital Art"
+          }
+        }
+      ]
+    },
+    "comments": {
+      "edges": [
+        {
+          "node": {
+            "body": "<p>\u2764 Hey all music enthusiasts and geeks from Product Hunt! <br>\ud83d\ude03 I am super excited to launch <strong>oMoo - the music player with Haptic</strong>.</p><p><br>Music has been my passion since childhood, thanks to my granny who introduced me to it. Now, as a piano and guitar player, I love performing, but granny's worsening hearing loss made it hard for her to hear my music.</p><p>I've explored advanced technologies to restore granny's hearing, but none were effective. She smiled as I played, but she could no longer hear the melodies. <br><br>\ud83c\udfb5 Inspired by Apple's Haptic Engine, I build oMoo - a totally new music player, to offer a new way to <strong>experience music through hand, not just ear</strong>. <br>\ud83e\uddcf I believe oMoo will bring the power and beauty of music to everyone, including people who are deaf or hard of hearing like my granny. <br><br>\ud83c\udf81 Join us in the comments, we'd love to hear from you!</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>What a meaningful innovation! Love how oMoo transforms music into tactile experiences through haptic feedback. The potential impact for the deaf and hard of hearing community is incredible.<br></p><p>The idea of feeling music's pulse, texture, and rhythm through your phone is fascinating. This could revolutionize how we experience music, making it truly accessible to everyone. Would love to see more examples of how different music genres translate into haptic patterns! \ud83c\udfb5\u2728</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>Love the thought behind oMoo. Rethinking music beyond sound opens up beautiful possibilities. Congrats on the launch!</p>"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "947045",
+    "name": "Supaboard AI",
+    "description": "Supaboard is a next-gen BI tool that helps you build powerful dashboards from your data securely without any expertise. Unify data from multiple sources with almost no setup and get precise answers from industry-trained AI analysts even with minimal prompts.",
+    "website": "https://www.producthunt.com/r/BUDOOZFIHJ7RE5?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "url": "https://www.producthunt.com/posts/supaboard-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "createdAt": "2025-04-03T07:01:00Z",
+    "topics": {
+      "edges": [
+        {
+          "node": {
+            "name": "Productivity"
+          }
+        },
+        {
+          "node": {
+            "name": "Analytics"
+          }
+        },
+        {
+          "node": {
+            "name": "Artificial Intelligence"
+          }
+        }
+      ]
+    },
+    "comments": {
+      "edges": [
+        {
+          "node": {
+            "body": "<p>Hello Product Hunters \ud83d\udc4b,<br><br>I\u2019m Aritra, creator of Supaboard. As a lifelong Data Scientist, I\u2019ve built 1000+ dashboards and faced endless frustrations\u2014Supaboard is my solution.<br><br>Why Supaboard?<br><br>1. Pulling data, writing SQL, and wrestling with clunky tools is overkill for a simple chart.<br>2. Even with ChatGPT or Copilot, you\u2019re stuck explaining context just to get a half-decent query\u2014then you still have to build the chart.<br>3. Most LLMs lack context, spitting out generic, useless insights.<br><br>So we built a BI tool that\u2019s:<br><br>\u2192 Simple: Just 3 buttons\u2014Data View, AI Conversations, Dashboards.<br>\u2192 Powerful: Handles complex questions effortlessly.<br>\u2192 Smart: Fine-tuned AI analysts understand industry terms and deliver spot-on answers.<br>It automates everything\u2014data connection to full dashboards\u2014in minutes, not days.<br><br>What makes Supaboard special?<br><br>\u2192 18+ industry/job-specific AI analysts (more on the way) with deep domain expertise.<br>\u2192 Embedded AI chat in dashboards, so end users can dig into data without back-and-forth.<br>\u2192 We don't expose all your data to the LLMs, keeping it private and secure<br>\u2192 Works anywhere\u2014phone, laptop, you name it.<br>\u2192 Supports NoSQL like MongoDB too.<br><br>Here what our customers are saying:<br></p><p>\"Supaboard is a fantastic product! Easy to set-up, supports several sources and enables AI for easy analytics, it\u2019s a great alternative to traditional building dashboards as it provides dashboards with several efficient AI agents.<br>We\u2019ve used it in multiple projects and it consistently delivers in terms of quality and performance. Highly recommend it for anyone looking easy BI and analytics to your business.\" - Pratik Nayek, Global Marketing Head, PrimeNumbers<br><br>Give it a spin\u2014we\u2019re offering 90% off all plans for the first month! I\u2019d love your feedback.<br><br>Cheers,</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>Hey PH fam! \ud83d\udc4b</p><br><p>Super excited to introduce Supaboard to the global Product Hunt community today! \ud83d\ude80</p><br><p>Let me be real \u2014 most data analytics tools are either too complex for everyday users or too basic for meaningful insights. But Supaboard brilliantly bridges this gap.</p><br><p><strong>What makes Supaboard special:</strong></p><br><p>\u2192 Just connect your data and ask questions in plain English \u2014 no SQL or coding needed</p><p>\u2192 18+ specialized AI analysts that actually understand your industry's terminology and needs</p><p>\u2192 From raw data to beautiful dashboards in minutes, not days or weeks</p><p>\u2192 Works across devices (mobile-friendly!) and supports both SQL and NoSQL databases</p><p>\u2192 Chat directly with your dashboards for deeper insights on the fly</p><br><p>I've watched the founder <a href=\"https://www.producthunt.com/@aritra_ghosh6\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">@aritra_ghosh6</a> obsess over this product for months. He built over 1000 dashboards himself so has a great track record and his team doesn't just understand data science - they understand the PAIN of waiting for insights when decisions need to be made NOW. This founder-market fit is obvious when you see the product in action.</p><br><p>For anyone tired of wrestling with clunky analytics tools or waiting days for your data team to build reports \u2014 this is your moment! \u26a1</p><br><p>Check it out and feel free to drop any questions below. The entire Supaboard team is here today and eager to hear your feedback! \ud83d\udc47</p><br><p>P.S. They're offering 90% off all plans for PH users this month, so definitely worth giving it a spin!</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>Always on the lookout for simpler, more user-friendly data analysis tools\u2014especially with AI in the mix. Hope Supaboard truly delivers on making data analysis more efficient! \ud83d\ude80</p>"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "948830",
+    "name": "Claude for Education",
+    "description": "Claude for Education revolutionizes learning with AI to guide critical thinking. Partnering with top universities, we're introducing Learning Mode, campus-wide access, and student programs that empower educators and learners to shape AI's future in academia.",
+    "website": "https://www.producthunt.com/r/3ONECIUI5XMIS5?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "url": "https://www.producthunt.com/posts/claude-for-education?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "createdAt": "2025-04-03T07:01:00Z",
+    "topics": {
+      "edges": [
+        {
+          "node": {
+            "name": "Education"
+          }
+        },
+        {
+          "node": {
+            "name": "Artificial Intelligence"
+          }
+        }
+      ]
+    },
+    "comments": {
+      "edges": [
+        {
+          "node": {
+            "body": "<p>The use of AI in schools is both controversial and inevitable. According to my 15 year old, everyone in high school is \"cheating with ChatGPT\". Their English teacher has resorted to requiring students to write reports only in class and in long-hand, even though phones aren't banned (which creates an obvious loophole).</p><br><p>It's smart for Anthropic to drive a conversation around AI use in academia provide products to equip students and educators alike.</p><br><p>To that end, they've announced Claude for Education, including:</p><ol><li><p><strong>Learning mode: </strong>A new Claude experience that guides students' reasoning process rather than providing answers, helping develop critical thinking skills</p></li><li><p><strong>University-wide Claude availability:</strong>&nbsp;Full campus access agreements with <a href=\"https://www.northeastern.edu/\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">Northeastern University</a>, London School of Economics and Political Science (LSE), and <a href=\"https://www.champlain.edu/\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">Champlain College</a>, making Claude available to all students</p></li><li><p><strong>Academic partnerships:</strong> Joining <a href=\"https://internet2.edu/\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">Internet2</a> and working with <a href=\"https://www.instructure.com/\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">Instructure</a> to embed AI into teaching &amp; learning with Canvas LMS</p></li><li><p><strong>Student programs:</strong> A new <a href=\"https://www.anthropic.com/contact-sales/claude-campus-ambassadors\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">Claude Campus Ambassadors</a> program along with an <a href=\"https://www.anthropic.com/contact-sales/for-student-builders\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">initiative offering API credits</a> for student projects</p></li></ol>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>All the best for the launch <a href=\"https://www.producthunt.com/@mike_krieger\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">@mike_krieger</a> &amp; team!</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>Schools clearly need smarter strategies instead of just going backward.</p>"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "940939",
+    "name": "Waxwing 2.0",
+    "description": "Upwork 2.0 for human-assisted AI agents: Get AI-generated previews of each service, DIY or hire AI-savvy experts, or run 500+ expert-built workflows. AI does the heavy lifting, humans ensure the outcome. Let's make AI great again!",
+    "website": "https://www.producthunt.com/r/KGDOXJ6YSZLGT3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "url": "https://www.producthunt.com/posts/waxwing-2-0?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "createdAt": "2025-04-03T07:01:00Z",
+    "topics": {
+      "edges": [
+        {
+          "node": {
+            "name": "Artificial Intelligence"
+          }
+        },
+        {
+          "node": {
+            "name": "Remote Work"
+          }
+        },
+        {
+          "node": {
+            "name": "Marketing automation"
+          }
+        }
+      ]
+    },
+    "comments": {
+      "edges": [
+        {
+          "node": {
+            "body": "<p>Hey Product Hunt Fam! \ud83d\udc4b<br><br></p><p>AI tools are everywhere\u2014AI for content, AI for outreach, AI for lead gen, AI for AI\u2026 (Seriously, where does it end? \ud83e\udd26\u200d\u2642\ufe0f)<br><br></p><p>But here\u2019s the thing: AI alone doesn\u2019t deliver outcomes. It drafts, generates, and automates\u2014but when it comes to actually getting stuff done? That\u2019s still on us humans.<br><br></p><p>We pivoted Waxwing into a Human+AI marketplace because our early users told us exactly what was missing: accountability and real, finished work. So we built Waxwing 2.0 \u2014 the only marketplace where real experts take AI to the last mile.<br><br></p><p>What does that mean for you?</p><p>\u2022 <strong>AI-Generated Previews</strong> \u2192 See exactly what AI can do before you hire an expert. No surprises, no guesswork.<br>\u2022 <strong>500+ AI-Powered Workflows</strong> \u2192 Crafted by true pros, fine-tuned for execution (not just outputs).<br>\u2022 <strong>DIY or Hire an Expert</strong> \u2192 Use our workflows yourself or bring in a pro to refine and execute.<br>\u2022 <strong>Context-Aware AI Copilot</strong> \u2192 It learns your brand, your tasks, and your goals\u2014offering actually helpful suggestions.<br>\u2022 <strong>Centralized Knowledge Base</strong> \u2192 No more repeating the same brand details to every freelancer; Waxwing already knows your brand inside out.<br>\u2022 <strong>Multi-Agent, Multi-Expert Orchestration</strong> \u2192 Execute high-value, complex projects with a mix of AI agents and human experts working in sync.<br><br>We are going head-to-head with <a href=\"https://www.producthunt.com/products/agent-ai-2\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">@agent.ai</a> (by <a href=\"https://www.producthunt.com/@dharmesh\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">@dharmesh</a> )<br></p><p>They are betting big on AI agents just like us. But here\u2019s what we\u2019ve learned: <strong>agents without humans still fall short.</strong> They hallucinate, miss context, and don\u2019t deliver ownership or final outcomes.<br></p><p>We believe <strong>Human+AI &gt; Just AI</strong> \u2014 and we\u2019re doubling down on that.</p><p>Here\u2019s why Waxwing is better:</p><ul><li><p><strong>More than agents: We offer outcomes.</strong> You don\u2019t just get a chatbot\u2014you get a result.</p></li><li><p><strong>Real experts in the loop.</strong> When AI hits its limits, humans take over. Seamlessly.</p></li><li><p><strong>Execution, not just automation.</strong> Work gets done\u2014not just started.</p></li><li><p><strong>Brand-aware workflows.</strong> No cold starts, no repetitive onboarding. We retain brand context across projects.<br></p></li></ul><p><strong>Why does this matter?</strong> Because businesses don\u2019t need more AI tools\u2014they need results. AI alone won\u2019t take responsibility, make judgment calls, or avoid the dreaded hallucinations. That\u2019s where humans step in.<br><br></p><p>With Waxwing, AI does what it does best (speed, drafts, automation) and experts do what they do best (creativity, strategy, accountability). The result? Real, tangible outcomes.<br><br></p><p>Let\u2019s make AI human again. Let\u2019s make AI <em>great</em> again.<br><br></p><p>Try it here: <a href=\"https://app.waxwing.ai/sign-up\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https://app.waxwing.ai/sign-up</a><br><br></p><p>Would love to hear your thoughts, feedback, and what you want from an AI-powered service marketplace. Let\u2019s build the future together!<br><br></p><p>P.S. Huge shoutout to <a href=\"https://www.producthunt.com/@rohanrecommends\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">@rohanrecommends</a> for hunting us, <a href=\"https://www.producthunt.com/@gabe\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">@gabe</a> for the amazing feedback and <a href=\"https://www.producthunt.com/@rajiv_ayyangar\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">@rajiv_ayyangar</a>  for building this amazing community! \ud83d\ude80</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>Congratulations on the launch guys! Great work done. Looking forward to trying out the platform and making the best use of it. All the best! </p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>Good luck with the launch, team! :)</p>"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "912025",
+    "name": "Genspark Super Agent",
+    "description": "Genspark Super Agent handles your everyday tasks, from making phone calls and generating slides to creating TikTok reels. With over 80 pre-built tools and extensive datasets, Genspark Super Agent is faster, more reliable, and more steerable.",
+    "website": "https://www.producthunt.com/r/Q4VYO2JNKO4HGG?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "url": "https://www.producthunt.com/posts/genspark-super-agent?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "createdAt": "2025-04-03T07:01:00Z",
+    "topics": {
+      "edges": [
+        {
+          "node": {
+            "name": "Productivity"
+          }
+        },
+        {
+          "node": {
+            "name": "Artificial Intelligence"
+          }
+        },
+        {
+          "node": {
+            "name": "Search"
+          }
+        }
+      ]
+    },
+    "comments": {
+      "edges": [
+        {
+          "node": {
+            "body": "<p>Hey Product Hunters! \ud83d\udc4b</p><br><p>I'm Eric, founder of Genspark. Nine months ago, we launched our first beta right here on Product Hunt. Today, we're excited to introduce the Genspark Super Agent \u2014 a fast, reliable AI assistant that helps with your everyday tasks.</p><br><p>Our all-in-one Super Agent automatically uses multiple tools to handle whatever you throw at it:</p><br><p>\u2705 Writing, quick searches, and in-depth research<br>\u2705 Travel planning, financial insights, and product comparisons<br>\u2705 Image &amp; video search and generation<br>\u2705 Creating slides, building websites, making calls, browsing, and more</p><br><p>Don't just take my word for it \u2014 check out these real examples you can jump into and continue:</p><br><p>\u2022 Plan a San Diego trip &amp; use AI Call for Me to make reservations<br>\u2022 Make restaurant reservations with AI Call for Me<br>\u2022 Create a minute-long South Park episode about recent news<br>\u2022 Build a step-by-step Instagram Reel for a cod fish recipe</p><br><p>I know you've seen tons of AI agents lately, but Genspark is different. It's: \u2022 Faster (on par with regular search/chat) \u2022 More reliable (way fewer errors and hallucinations) \u2022 More steerable (easily guide and refine results)</p><br><p>We're not building just another demo. We've created a genuinely useful tool that will save you time right now.</p><br><p>Give it a try and let me know what you think: <a href=\"http://genspark.ai\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">genspark.ai</a>\ud83d\ude80</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>I like how Genspark super agent takes on everything from research to making actual calls. This kind of range and reliability is amazing. Although, I\u2019m curious - when chaining multiple tools together (like search -&gt; call -&gt; reservation), how do you handle context retention and error recovery mid-task? Feels like a tricky orchestration problem (though I don't have much knowledge in this area). Congrats on the launch!</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>\ud83c\udf89 Huge congrats to Eric <a href=\"https://www.producthunt.com/@eric_jing\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">@eric_jing</a> and the Genspark team on launching <strong>Super Agent</strong>! \ud83d\ude80 Love how you\u2019ve packed 80+ tools into one AI powerhouse\u2014travel planning, TikTok reels, <em>and</em> AI-powered calls? \ud83d\udd25 The \"steerable results\" and reduced hallucinations are game-changers for productivity tools.</p><br><p><strong>Quick suggestion:</strong> Have you considered letting users create <strong>custom tool</strong>?  What is your roadmap? </p>"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "946739",
+    "name": "AutonomyAI",
+    "description": "AutonomyAI introduces context-aware agents that handle front-end development tasks and deliver fully production-ready code. Free your team from repetitive dev work, allowing them to concentrate on creating exceptional products. Join for early access!",
+    "website": "https://www.producthunt.com/r/XRNJY5WVM2HBMQ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "url": "https://www.producthunt.com/posts/autonomyai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "createdAt": "2025-04-03T07:01:00Z",
+    "topics": {
+      "edges": [
+        {
+          "node": {
+            "name": "Design Tools"
+          }
+        },
+        {
+          "node": {
+            "name": "Software Engineering"
+          }
+        },
+        {
+          "node": {
+            "name": "Artificial Intelligence"
+          }
+        }
+      ]
+    },
+    "comments": {
+      "edges": [
+        {
+          "node": {
+            "body": "<p>We\u2019ve been quietly building for a while now and today I'm very excited to share what we\u2019ve been working on.<br></p><p>While many tools help devs write code faster, they often introduce churn, duplication, and bugs. The real challenge isn\u2019t typing speed, it\u2019s writing high-quality <strong>infra-aware code</strong> that fits your stack and scales with your team. That\u2019s what we\u2019ve built at AutonomyAI.<br></p><p>\ud83e\udde0 Our first product, <strong>The Magician</strong>, turns Figma designs into clean, production-ready React code by deeply understanding your codebase\u2014its components, structure, and conventions.</p><p><br>To make that possible, we didn\u2019t start with generation. We started with understanding.</p><p><br>We built <strong>ACE, </strong>our<strong> Agentic Context Engine</strong>, the secret sauce that enables agents to operate like a senior engineer who knows your codebase better than anyone. ACE is powered by our <a href=\"https://autonomyai.io/ace-making-ai-agents-reliable-development-partners/\" target=\"_blank\" rel=\"nofollow noopener noreferrer\"><strong>TripleR approach</strong></a><strong>:</strong><br>\u2705 <strong>Retrieval</strong>: Finding and extracting only the most relevant parts of the codebase, documentation, and dependencies.&nbsp; <br>\u2705 <strong>Representation</strong>: Cleaning up and transforming retrieved data, ensuring AI processes only what matters in a way it can take action.&nbsp; <br>\u2705 <strong>Repetition</strong>: Maintaining consistency across interactions, so even with LLM\u2019s nondeterministic nature, our agents create reliable production-grade code.</p><p><br>With ACE, the Magician can reuse local components, respect your design system, adapt to your code style, and generate React that\u2019s actually built for your stack.</p><p><br>This isn\u2019t just a fancy wrapper. It\u2019s a new foundation for how dev teams build\u2014with agents that plug into your infra, use your tools, and act like real teammates.</p><p><br>Would love your thoughts, feedback, and support.</p><p><br>Built with love (and way too many late nights) by our amazing team\u2014and alongside my co-founders <a href=\"https://www.producthunt.com/@arik_faingold\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">@arik_faingold</a> and <a href=\"https://www.producthunt.com/@adir_ben_yehuda\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">@adir_ben_yehuda</a> \ud83d\udc99</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>Hello Product Hunt!</p><p>We\u2019re thrilled to finally step out of stealth and introduce AutonomyAI and announcing our funding round! $4M</p><p>Unlike other dev tools, our agents are powered by our proprietary Agentic Contextual Engine (ACE), a breakthrough system that allows them to truly understand your codebase, its structure, and its style.</p><p>That means no more AI-generated spaghetti code. Just real, readable, consistent output that feels like your team wrote it.</p><p>\ud83d\udc40 What\u2019s in our first drop?</p><p>1. The Magician \ud83e\ude84</p><p>Figma to code, in seconds. Clean, component-based, and production-ready.</p><p>2. The Visualizer \ud83d\udcca</p><p>Auto-generates crystal-clear visual explanations of any code for devs, PMs, or anyone who needs to get it fast.</p><p>This isn\u2019t just another dev tool. It\u2019s a new way to work with AI that actually works with you, no slowdowns, no translations, just instant understanding.</p><p>And it\u2019s not just hype, over 40 companies are already using AutonomyAI, and they\u2019re seeing incredible results across productivity, clarity, and dev velocity.</p><p>\ud83d\udc49 Curious? Visit our site to book a demo and see AutonomyAI in action.</p><p>Drop any questions below, we\u2019d love to hear from you!</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>this looks super cool, already fired my entire engineering team so i really need this to work</p>"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "946489",
+    "name": "Langflow Desktop",
+    "description": "Langflow is a dev tool for building and deploying AI-powered agents. It includes a visual authoring experience and built-in API server that turns every agent into an API. Supports all major LLMs, vector databases and a growing library of AI tools.",
+    "website": "https://www.producthunt.com/r/FCFEII6N3OPWWV?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "url": "https://www.producthunt.com/posts/langflow-desktop?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "createdAt": "2025-04-03T07:01:00Z",
+    "topics": {
+      "edges": [
+        {
+          "node": {
+            "name": "Open Source"
+          }
+        },
+        {
+          "node": {
+            "name": "Artificial Intelligence"
+          }
+        },
+        {
+          "node": {
+            "name": "GitHub"
+          }
+        }
+      ]
+    },
+    "comments": {
+      "edges": [
+        {
+          "node": {
+            "body": "<p>Hello hunters!  For those of you who are new to Langflow, we are building the easiest way for developers to build and ship AI-powered agents to production. And I'm excited to announce a huge milestone in this journey: Langflow Desktop!<br><br>Why did we build this? We wanted to streamline the process for getting folks up-and-running. No need to install Python, download dependencies or configure your environment. Just install Langflow Desktop and start building.  <br><br>We're launching Langflow Desktop Alpha today for MacOS. Please download it and take it for a spin! We can't wait to hear what you think of it, please feel free to comment and the team and I will respond.</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>Congrats on the launch <a href=\"https://www.producthunt.com/@rodrigonader\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">@rodrigonader</a>! Langflow for desktop looks super handy for getting started quickly! Question: how does it handle collaboration or version control when teams work on the same project? Also, I think a 'test mode' where one can simulate different user inputs before deploying an agent would be an amazing feature.</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>After installation on mac, It's stuck at 60% for almost 20 mins. Is this as expected behavior?</p>"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "844094",
+    "name": "TwinMind: AI Second Brain for Mobile",
+    "description": "Never take notes again. Get free unlimited transcription of everything you hear and say\u2014even offline inside your pocket all day\u2014with full privacy. Get proactive answers before you even ask. Chat with all your memories and the web. No gadgets\u2014just get the app!",
+    "website": "https://www.producthunt.com/r/HONRGN6I5X6KZV?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "url": "https://www.producthunt.com/posts/twinmind-ai-second-brain-for-mobile?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "createdAt": "2025-04-03T07:01:00Z",
+    "topics": {
+      "edges": [
+        {
+          "node": {
+            "name": "Productivity"
+          }
+        },
+        {
+          "node": {
+            "name": "Notes"
+          }
+        },
+        {
+          "node": {
+            "name": "Artificial Intelligence"
+          }
+        }
+      ]
+    },
+    "comments": {
+      "edges": [
+        {
+          "node": {
+            "body": "<p>Hey Product Hunters! <br><br>I'm Daniel, co-founder of TwinMind. Last year, you made our Chrome extension a #2 Product of the Day\u2014thank you!&nbsp; <strong>We heard your biggest request: <em>\u201cWe love TwinMind but how can it capture real-life moments away from my desk?\u201d</em></strong><br><br>Most important conversations happen in-person\u2014coffee chats, lectures, meetings, and conferences\u2014but over 90% of these memories are lost forever. <strong>Until now.</strong> <br><br>Today, we\u2019re launching the TwinMind app for iPhones which can transcribe every word, even from inside your pocket:<br><br></p><p>\ud83c\udf99\ufe0f&nbsp;<strong>Transcribe in 100+ languages</strong> and ask AI anything about ALL your past conversations at once (no more information scattered across awkward meeting bots and voice recordings).<br><br><a href=\"https://emojipedia.org/party-popper\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">\ud83c\udf89</a>&nbsp;<strong>Free unlimited transcripts and AI chats</strong>: Every other AI note-taking app asks you to pay after a few hours, but we have no caps even on our free plan! You get access to standard LLMs and offline transcription forever.<br><br>\ud83d\udd10 <strong>Complete</strong> <strong>privacy:</strong> You audio is never stored anywhere. Use local speech model for fully on-device transcription. Choose Private Mode (no cloud backups) for your confidential conversations.</p><p><br>\ud83d\udca1&nbsp;<strong>Proactive talking points</strong> based on live context (e.g., \u201cPredict what I want to know now\u201d, \u201cFact-check what they just said\u201d, \u201cWhat should I say next to sound smart?\u201d).<br><br>\ud83d\udcc5 <strong>Connects with your Calendars</strong> to get attendees, agendas, and key details right (never fumble a follow-up email).</p><p><br>\ud83d\udcbb <strong>Syncs with TwinMind Desktop</strong> Chrome extension, so you can seamlessly sync memories across devices.</p><p><br>\ud83d\udcf1 <strong>No new hardware!</strong> Our AI models are optimized to run for 12+ hours without draining your phone's battery.</p><p><br>\ud83e\udde0 <strong>Train your personalized AI Twin</strong> that learns your style and acts like you. The more memories you collect, the smarter it gets.</p><br><p>\ud83c\udf81 <strong>Exclusive PH Launch Deal:<br></strong></p><ul><li><p><strong>Free Forever</strong>: Unlimited transcription hours and chat with standard AI models on our free plan.&nbsp;&nbsp;</p></li><li><p><strong>30-Days of Advanced Features</strong>: Automatic routing to the best LLMs for each task (ChatGPT, Grok, Claude, DeepSeek, Gemini) + Web Search with sources (via Perplexity) + Multi-Step Reasoning.<br></p></li></ul><p><br>Our 2,000+ early users helped shape this\u2014huge thanks to them and to YOU for joining us on this journey! Try it out and tell us how we can make it even better.&nbsp;&nbsp;</p><p><br>- Daniel &amp; the TwinMind Team<br></p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>Congrats on the mobile launch, <a href=\"https://www.producthunt.com/@daniel_george12\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">@daniel_george12</a>! This is next level. The \"missed moments\" problem is not uncommon. TwinMind tackles it by capturing in-person convos offline and on the go. But how does it handle overlapping voices or ambient noises when it's transcribing passively? Does it use some AI elements to predict the words when they are not clear?</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>Very cool product - I gave it a try a few days back and absolutely loved it! </p>"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "948480",
+    "name": "Neuron AI",
+    "description": "Neuron AI is designed for 100% privacy, speed, and full control \u2014 it runs completely on-device, meaning no internet is required and no data ever leaves your device. Don\u2019t believe it? Turn on airplane mode and be amazed.",
+    "website": "https://www.producthunt.com/r/VOSE3EUKPUQDXW?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "url": "https://www.producthunt.com/posts/neuron-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "createdAt": "2025-04-03T07:01:00Z",
+    "topics": {
+      "edges": [
+        {
+          "node": {
+            "name": "Productivity"
+          }
+        },
+        {
+          "node": {
+            "name": "Privacy"
+          }
+        },
+        {
+          "node": {
+            "name": "Artificial Intelligence"
+          }
+        }
+      ]
+    },
+    "comments": {
+      "edges": [
+        {
+          "node": {
+            "body": "\ud83d\udc4b Hey Product Hunt!\n\nI\u2019m the solo maker behind Neuron AI \u2014 launched it just 24 hours ago and already blown away by the early response (people are using the app and pay money for it)!\n\nNeuron AI is a 100% on-device AI assistant \u2014 meaning it runs entirely locally on your phone. No internet required. No data leaves your device. Ever.\n\nYou can:\n\t\u2022\tTranscribe &amp; summarize audio instantly (e.g. meetings, lectures)\n\t\u2022\tChat with your preferred LLM privately\n\t\u2022\tUse it offline \u2014 even in airplane mode!\n\t\u2022\tAnd much more \n\nI built this because I wanted an AI tool that\u2019s fast, private, and doesn\u2019t siphon my data to the cloud. Hope you find it as useful as I do.\n\nWould love your thoughts, feedback, and questions \u2014 happy to share more on the tech behind it too!"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>Speed + privacy is definitely a pain point with AI tools and Neuron AI nails it by going fully on-device. Huge win for many folks out there. I am curious about the instant transcription and summarization. Is the efficiency coming from quantized models, or did you build some custom pipeline to optimize for mobile hardware?</p><br><p>Congratulations on the launch <a href=\"https://www.producthunt.com/@kyomangold\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">@kyomangold</a>!</p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>Purely on-device AI! Awesome. Did you make the model from scratch? If it's confidential, you don't need to reveal.</p><p>I was once interested in mobile on-device AI models but back then AI models were too large to run on any mobile device.</p><br><p>btw good to see fellow \"Screenshots Pro\" user! It makes things really handy, doesn't it.</p>"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "948815",
+    "name": "Vantedge AI",
+    "description": "Vantedge AI is the one-stop AI infrastructure and Agent Marketplace for funds and fintech startups. We simplify AI adoption for investors and provide distribution for curated AI agents.",
+    "website": "https://www.producthunt.com/r/AY7SUHTFY2QWWH?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "url": "https://www.producthunt.com/posts/vantedge-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+toolate.ai+%28ID%3A+180920%29",
+    "createdAt": "2025-04-03T07:01:00Z",
+    "topics": {
+      "edges": [
+        {
+          "node": {
+            "name": "Fintech"
+          }
+        },
+        {
+          "node": {
+            "name": "Investing"
+          }
+        },
+        {
+          "node": {
+            "name": "Artificial Intelligence"
+          }
+        }
+      ]
+    },
+    "comments": {
+      "edges": [
+        {
+          "node": {
+            "body": "<p>Big congrats! Love the focus on simplifying AI for the finance world. </p>"
+          }
+        },
+        {
+          "node": {
+            "body": "<p>Vantedge AI hits a real need by bridging powerful AI tools with the finance world.</p>"
+          }
+        }
+      ]
+    }
+  }
+]
