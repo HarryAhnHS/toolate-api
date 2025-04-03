@@ -2,22 +2,22 @@ import json
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
+from app.utils.llm import standardize, standardize_concurrently 
+
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-from app.utils.llm import standardize_desc;
-
 # Load the corpus into dictionary
 with open("app/data/corpus.json", "r") as f:
     corpus = json.load(f) 
 
-# Extract descriptions from the corpus
+# Extract descriptions from the corpus + standardize each description
 descriptions = [c["description"] for c in corpus]
+descriptions = standardize_concurrently(descriptions)
 
-# Turn this startup idea into a product description using LLM as product description focusing on what it does and who it's for
-descriptions = standardize_desc(descriptions)
+print(descriptions)
 
 # Load the model
 st_model = os.getenv("ST_MODEL")

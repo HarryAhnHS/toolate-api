@@ -1,6 +1,6 @@
 from together import Together
-from app.utils.transformers import needs_truncation, needs_enrichment
-
+from concurrent.futures import ThreadPoolExecutor
+from typing import List
 # Standardize the description/input prior to embedding
 
 client = Together()
@@ -20,3 +20,9 @@ def standardize(raw_desc: str) -> str:
         messages=[{"role": "user", "content": prompt}],
     )
     return response.choices[0].message.content.strip()
+
+# use ThreadPoolExecutor to standardize descriptions concurrently
+def standardize_concurrently(descriptions: List[str]) -> List[str]:
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        results = list(executor.map(standardize, descriptions))
+    return results
