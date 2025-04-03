@@ -4,6 +4,7 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 import os
 from dotenv import load_dotenv
+from app.utils.llm import standardize
 
 load_dotenv()
 
@@ -19,14 +20,15 @@ st_model = os.getenv("ST_MODEL")
 model = SentenceTransformer(st_model)
 
 # Ask for input
-user_idea = input("Enter your startup idea: ")
+raw_input = input("Enter your startup idea: ")
+user_idea = standardize(raw_input)
 
 # Embed the query
 query_embedding = model.encode([user_idea])
 query_embedding = np.array(query_embedding).astype("float32")
 
 # Perform semantic search
-k = 5
+k = 1
 D, I = index.search(query_embedding, k)
 
 # Print results

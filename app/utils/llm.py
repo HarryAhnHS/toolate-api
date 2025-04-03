@@ -1,9 +1,15 @@
 from together import Together
-from concurrent.futures import ThreadPoolExecutor
+# from concurrent.futures import ThreadPoolExecutor
 from typing import List
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Standardize the description/input prior to embedding
 
-client = Together()
+client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
 
 PROMPT_TEMPLATE = """
 Summarize this startup idea into a clear 3-4 sentence product description.
@@ -22,7 +28,7 @@ def standardize(raw_desc: str) -> str:
     return response.choices[0].message.content.strip()
 
 # use ThreadPoolExecutor to standardize descriptions concurrently
-def standardize_concurrently(descriptions: List[str]) -> List[str]:
-    with ThreadPoolExecutor(max_workers=10) as executor:
-        results = list(executor.map(standardize, descriptions))
-    return results
+# def standardize_concurrently(descriptions: List[str]) -> List[str]:
+#     with ThreadPoolExecutor(max_workers=10) as executor:
+#         results = list(executor.map(standardize, descriptions))
+#     return results
