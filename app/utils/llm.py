@@ -1,6 +1,7 @@
 from together import Together
-# from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 from typing import List
+from functools import partial
 
 import os
 from dotenv import load_dotenv
@@ -8,19 +9,36 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Standardize the description/input prior to embedding
-
 client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
 
-PROMPT_TEMPLATE = """
-Summarize this startup idea into a clear 3-4 sentence product description.
-Focus on what the product does, its core functionality, and who it's for.
+CORPUS_PROMPT_TEMPLATE = """
+Rewrite the following startup idea into a structured, technical product description (5 sentences maximum).
 
-Idea:
+You MUST focus on:
+- Core functionality and technical capabilities (not marketing)
+- Specific features or APIs (what it lets users actually *do*)
+- Target users or industries
+- Differentiators: how this startup compares to similar tools
+- DO NOT mention funding, YC, launch batch, partners, or historical facts
+
+Startup Idea:
 \"\"\"{idea}\"\"\"
 """
 
-def standardize(raw_desc: str) -> str:
-    prompt = PROMPT_TEMPLATE.format(idea=raw_desc)
+IDEA_PROMPT_TEMPLATE = """
+Rewrite the following startup idea into a structured, technical product description.
+
+Startup Idea:
+\"\"\"{idea}\"\"\"
+"""
+def standardize(raw_str: str, type: str = "corpus") -> str:
+    if type == "corpus":
+        prompt = CORPUS_PROMPT_TEMPLATE.format(idea=raw_str)
+    elif type == "idea":
+        prompt = IDEA_PROMPT_TEMPLATE.format(idea=raw_str)
+    else:
+        raise ValueError("Invalid type. Must be 'corpus' or 'idea'.")
+    
     response = client.chat.completions.create(
         model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
         messages=[{"role": "user", "content": prompt}],
@@ -28,7 +46,8 @@ def standardize(raw_desc: str) -> str:
     return response.choices[0].message.content.strip()
 
 # use ThreadPoolExecutor to standardize descriptions concurrently
-# def standardize_concurrently(descriptions: List[str]) -> List[str]:
-#     with ThreadPoolExecutor(max_workers=10) as executor:
-#         results = list(executor.map(standardize, descriptions))
-#     return results
+def standardize_concurrently(descriptions: List[str], type: str = "corpus") -> List[str]:
+    fn = partial(standardize, type=type)
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        results = list(executor.map(standardize, descriptions))
+    return results

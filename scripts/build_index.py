@@ -3,7 +3,7 @@ import json
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from app.utils.llm import standardize 
+from app.utils.llm import standardize_concurrently
 
 import os
 from dotenv import load_dotenv
@@ -17,9 +17,20 @@ with open("app/data/corpus.json", "r") as f:
 
 # Extract descriptions from the corpus + standardize each description
 print(f"Standardizing {len(corpus)} descriptions...")  
-descriptions = [standardize(c["description"]) for c in corpus]
-# descriptions = standardize_concurrently(raw_descriptions)
-print(f"Standardized {len(descriptions)} descriptions, {descriptions[0:2]}")
+raw_descriptions = [c["description"] for c in corpus]
+descriptions = standardize_concurrently(raw_descriptions)
+print(f"Successfully standardized {len(corpus)} descriptions!")
+print(f"Descriptions: {descriptions[0:1]}")
+
+# Update corpus with standardized summaries if they don't exist or are different
+print("Updating corpus with standardized descriptions...")
+for i, entry in enumerate(corpus):
+    entry["standardized_description"] = descriptions[i]
+print("Successfully updated corpus with standardized descriptions!")
+
+# Save the updated corpus back to JSON
+with open("app/data/corpus.json", "w") as f:
+    json.dump(corpus, f, indent=2)
 
 # Load the model
 st_model = os.getenv("ST_MODEL")
