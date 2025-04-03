@@ -1,8 +1,11 @@
 import requests
-import os
+import os, json
+from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
 load_dotenv()
+
+CACHE_PATH = ".cache/ph_token.json"
 
 # Call access token endpoint to get access token
 def get_ph_access_token():
@@ -18,19 +21,31 @@ def get_ph_access_token():
         "client_secret": os.getenv("PH_CLIENT_SECRET"),
         "grant_type": "client_credentials"
     }
-
     response = requests.post(url, json=data, headers=headers)
-    
-    # print("\nResponse Status Code:", response.status_code)
-    # print("Response Headers:", dict(response.headers))
-    
     try:
-        json_data = response.json()
+        token = response.json()["access_token"]
     except ValueError:
-        print("Got HTML instead of JSON. Likely blocked by Cloudflare.")
-        print("Raw body:", response.text[:500])
         raise SystemExit("Aborting due to invalid JSON response.")
     response.raise_for_status()
 
-    print("Successfully got access token")
-    return json_data["access_token"]
+    # Cache the token as json file
+    os.makedirs(".cache", exist_ok=True)
+    with open(CACHE_PATH, "w") as f:
+        json.dump({
+            "access_token": token,
+            "fetched_at": datetime.now(datetime.UTC).isoformat()
+        }, f)
+
+    return token
+
+
+# Get cached token if it exists and is less than 20 hours old
+# else get a new token
+def get_cached_token(max_age_hours=24) -> str:
+    if os.path.exists(CACHE_PATH):
+        with open(CACHE_PATH, "r") as f:
+            data = json.load(f)
+        fetched_at = datetime.fromisoformat(data["fetched_at"])
+        if datetime.now(datetime.UTC) - fetched_at < timedelta(hours=max_age_hours):
+            return data["access_token"]
+    return get_ph_access_token()  # fallback

@@ -23,3 +23,6 @@ app/data/*.npy
 
 # macOS junk
 .DS_Store
+
+# Cache
+.cache/
