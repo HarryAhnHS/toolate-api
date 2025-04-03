@@ -13,7 +13,7 @@ with open("app/data/corpus.json", "r") as f:
     corpus = json.load(f)
 
 # Load FAISS index
-index = faiss.read_index("app/data/corpus_index.faiss")
+index = faiss.read_index("app/data/rag/corpus_index.faiss")
 
 # Load embedding model
 st_model = os.getenv("ST_MODEL")

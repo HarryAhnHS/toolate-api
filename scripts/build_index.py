@@ -45,13 +45,13 @@ embeddings = model.encode(
 )
 
 # Save the embeddings
-np.save("app/data/corpus_embeddings.npy", embeddings)
+np.save("app/data/rag/corpus_embeddings.npy", embeddings)
 
 # Build the index using L2 distance - euclidean distance
 index = faiss.IndexFlatL2(embeddings.shape[1])
 index.add(np.array(embeddings))
 
 # Save the searchable index
-faiss.write_index(index, "app/data/corpus_index.faiss")
+faiss.write_index(index, "app/data/rag/corpus_index.faiss")
 
 print(f"Successfully embedded {len(descriptions)} startups and saved index.")
