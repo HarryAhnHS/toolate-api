@@ -2,6 +2,12 @@ import json
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+from app.utils.llm import standardize_desc;
 
 # Load the corpus into dictionary
 with open("app/data/corpus.json", "r") as f:
@@ -10,8 +16,12 @@ with open("app/data/corpus.json", "r") as f:
 # Extract descriptions from the corpus
 descriptions = [c["description"] for c in corpus]
 
+# Turn this startup idea into a product description using LLM as product description focusing on what it does and who it's for
+descriptions = standardize_desc(descriptions)
+
 # Load the model
-model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
+st_model = os.getenv("ST_MODEL")
+model = SentenceTransformer(st_model)
 embeddings = model.encode(descriptions)
 
 np.save("app/data/corpus_embeddings.npy", embeddings)

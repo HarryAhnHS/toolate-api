@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.log
+
+# Virtual env
+venv/
+
+# VSCode / Cursor
+.vscode/
+
+# FAISS and model cache
+app/data/*.faiss
+app/data/*.npy
+
+# Hugging Face model cache (optional if needed)
+~/.cache/huggingface/
+
+# Environment files
+.env
+.env.*
+
+# macOS junk
+.DS_Store

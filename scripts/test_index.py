@@ -2,6 +2,10 @@ import json
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Load corpus
 with open("app/data/corpus.json", "r") as f:
@@ -11,7 +15,8 @@ with open("app/data/corpus.json", "r") as f:
 index = faiss.read_index("app/data/corpus_index.faiss")
 
 # Load embedding model
-model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
+st_model = os.getenv("ST_MODEL")
+model = SentenceTransformer(st_model)
 
 # Ask for input
 user_idea = input("Enter your startup idea: ")
