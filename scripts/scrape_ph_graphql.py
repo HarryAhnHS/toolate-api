@@ -10,6 +10,9 @@ BATCH_SIZE = 10
 INITIAL_COMPLEXITY_CREDITS = 6250
 POLITE_DELTA = random.randint(1, 5) # randomize polite delta
 MAX_WAIT_TIME = 900 + POLITE_DELTA # 15 minutes + 5 seconds for polite
+MAX_FAILURES = 10  # Number of consecutive failed attempts allowed
+CONSECUTIVE_FAILURES = 0
+
 OUTPUT_FILE = "app/data/scrapes/ph_ai_db.json"
 CACHE_FILE = "app/data/scrapes/ph_ai_cache.json"
 
@@ -80,8 +83,8 @@ def make_graphql_request(query: str):
 
     return response.json()
 
-def get_batch_query(after_cursor=None):
-    after_clause = f', after: "{after_cursor}"' if after_cursor else ""
+def get_batch_query():
+    after_clause = f', after: "{cache_map["after"]}"' if cache_map["after"] else ""
     return f"""
     query {{
       posts(first: {BATCH_SIZE}, topic: "artificial-intelligence", order: RANKING{after_clause}) {{
@@ -149,11 +152,23 @@ def main():
             time.sleep(wait_time + POLITE_DELTA)
 
         # Run the query
-        query = get_batch_query(cache_map["after"])
+        query = get_batch_query()
         result = make_graphql_request(query)
+
+        # Unexpected failures - continue to next iteration
         if not result:
-            print("⚠️ Continuing to next iteration.")
-            continue  # loop will wait if needed on next pass
+            failure_count += 1
+            print(f"❌ Batch failed ({failure_count}/{MAX_FAILURES})")
+
+            if failure_count >= MAX_FAILURES:
+                print("🛑 Too many consecutive failures. Exiting scraper.")
+                save_posts(list(existing_map.values()))
+                save_cache()
+                break
+
+            continue
+        else:
+            failure_count = 0  # reset on success
 
         cache_map["batch_count"] += 1
         print(f"✅ Successful batch {cache_map['batch_count']} | Remaining credits: {cache_map['remaining_credits']}")
@@ -169,8 +184,9 @@ def main():
         cache_map["after"] = page_info["endCursor"]
 
         # Save state
-        save_cache()
         save_posts(list(existing_map.values()))
+        save_cache()
+        print(f"✅ Stored {len(existing_map)} unique entries so far.")
 
         # EDGE: Stop if end of posts reached
         if not page_info["hasNextPage"]:
