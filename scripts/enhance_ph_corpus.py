@@ -7,7 +7,7 @@ INPUT_FILE = "app/data/corpus/ph_raw_corpus.json"
 OUTPUT_FILE = "app/data/corpus/ph_enhanced_corpus.json"
 BATCH_SIZE = 5
 CACHE_FOLDER = "app/data/corpus/cache/"
-CACHE_EVERY_N_BATCHES = 20
+CACHE_EVERY_N_BATCHES = 40
 
 # --- Enhancement Version ---
 # v1: initial enhancement
@@ -35,7 +35,7 @@ def save_corpus(path, data):
 def save_checkpoint(data, batch_idx):
     os.makedirs(CACHE_FOLDER, exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    path = os.path.join(CACHE_FOLDER, f"ph_enhanced_checkpoint_batch{batch_idx}_{timestamp}.json")
+    path = os.path.join(CACHE_FOLDER, f"ph_enhanced_cp_batch{batch_idx}_{timestamp}.json")
     save_corpus(path, data)
     print(f"💾 Cached checkpoint at {path}")
 
