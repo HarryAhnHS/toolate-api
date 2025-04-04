@@ -122,7 +122,12 @@ def standardize_entry(entry: dict, version: str) -> str:
 # FOLLOWING IS NOT SUPPORTED BY TOGETHER.AI DUE TO 1 QPS LIMIT - but good to implement for future use
 # --- Batched, Threaded Standardization ---
 def standardize_batch(entries: List[dict], version: str) -> List[dict]:
-    return [standardize_entry(e, version) for e in entries]
+    enhanced = []
+    for entry in entries:
+        result = standardize_entry(entry, version)
+        if result:
+            enhanced.append(result)
+    return enhanced
 
 # multi-threaded standardization - not supported by together.ai due to 1 QPS limit
 def standardize_concurrently(

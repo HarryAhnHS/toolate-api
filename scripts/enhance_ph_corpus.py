@@ -79,13 +79,13 @@ def enhance_corpus():
             enhanced_batch = standardize_batch(batch, version=CURRENT_ENHANCEMENT_VERSION)
             enhanced_corpus.extend(enhanced_batch)
 
-            # Update seen IDs to keep sample unique
-            seen_ids.update(entry["id"] for entry in batch)
-
             # Rewrite to corpus at each batch
             save_corpus(OUTPUT_FILE, enhanced_corpus)
             print(f"✅ Appended and saved {len(enhanced_batch)} new entries!")
             print(f"✅ Total enhanced entries: {len(enhanced_corpus)}")
+
+            # Update seen IDs to keep sample pool unique
+            seen_ids.update(entry["id"] for entry in enhanced_batch)
 
             # Save checkpoint every N batches - learnt the hard way...
             if batch_num % CACHE_EVERY_N_BATCHES == 0:
