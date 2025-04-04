@@ -3,7 +3,7 @@ import json
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from app.utils.llm import standardize_concurrently
+from app.utils.standardizer import standardize_concurrently
 
 import os
 from dotenv import load_dotenv
@@ -12,11 +12,10 @@ load_dotenv()
 gc.collect()
 
 # Load the corpus into dictionary
-with open("app/data/corpus.json", "r") as f:
+with open("app/data/corpus/ph_raw_corpus.json", "r") as f:
     corpus = json.load(f) 
 
-# Extract descriptions from the corpus + standardize each description
-print(f"Standardizing {len(corpus)} descriptions...")  
+# Extract descriptions from the corpus + standardize each description 
 raw_descriptions = [c["description"] for c in corpus]
 descriptions = standardize_concurrently(raw_descriptions)
 print(f"Successfully standardized {len(corpus)} descriptions!")

@@ -23,6 +23,7 @@ def generate_corpus_entry(post):
         "type": "description",
         "id": post_id,
         "text": post["description"].strip(),
+        "createdAt": post["createdAt"],
         "meta": {
             "name": post["name"],
             "url": post["url"],
@@ -42,7 +43,11 @@ def generate_corpus_entry(post):
             "id": f"{post_id}_c{i+1}",
             "text": body.strip(),
             "meta": {
-                "parent": post_id # to group chunks by post
+                "parent_id": post_id, # to group chunks by post
+                "parent_name": post["name"],
+                "parent_url": post["url"],
+                "parent_createdAt": post["createdAt"],
+                "parent_tags": extract_tags(post.get("topics"))
             }
         })
 
