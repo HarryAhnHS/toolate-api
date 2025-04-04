@@ -5,25 +5,21 @@ import numpy as np
 from tqdm import tqdm
 from sentence_transformers import SentenceTransformer
 from typing import List, Dict
-from dotenv import load_dotenv
 
-load_dotenv()
+from app.core.config import EMBED_MODEL_NAME, DATA_DIR, DESCRIPTION_INDEX, COMMENT_INDEX, DESC_META, COMM_META
 
-# CONFIG
-EMBED_MODEL_NAME = os.getenv("EMBED_MODEL")
-CORPUS_FILE = "app/data/corpus/test_enhanced_corpus.json"
-OUTPUT_DIR = "app/data/rag/indexes"
 
-# Store paths for index, and metadata based on keyed by type
 ENTRY_PATHS = [{
     "type": "description",
-    "index_path": os.path.join(OUTPUT_DIR, "desc_index.faiss"),
-    "meta_path": os.path.join(OUTPUT_DIR, "desc_metadata.json")
+    "index_path": DESCRIPTION_INDEX,
+    "meta_path": DESC_META
 }, {
     "type": "comment",
-    "index_path": os.path.join(OUTPUT_DIR, "comment_index.faiss"),
-    "meta_path": os.path.join(OUTPUT_DIR, "comment_metadata.json")
+    "index_path": COMMENT_INDEX,
+    "meta_path": COMM_META
 }]
+CORPUS_FILE = "app/data/corpus/test_enhanced_corpus.json"
+OUTPUT_DIR = DATA_DIR
 
 # UTILS
 def load_corpus(file_path: str) -> List[Dict]: # load ENHANCEDcorpus from file
@@ -34,13 +30,16 @@ def save_json(data, path): # save metadata for future reference
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
 
+# Embedding all texts entries into dense vectors -> multiple queries
 def embed_texts(texts: List[str], model: SentenceTransformer) -> np.ndarray: # convert into dense vectors
     return np.array(model.encode(
         texts,
+        convert_to_numpy=True,
+        normalize_embeddings=True, # for cosine or L2 distance
+
+        # these params are for multiple query handling
         show_progress_bar=True,
         batch_size=16,
-        convert_to_numpy=True,
-        normalize_embeddings=True,
         num_workers=0
     ))
 
