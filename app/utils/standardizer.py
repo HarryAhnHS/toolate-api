@@ -12,7 +12,6 @@ load_dotenv()
 client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
 
 # --- Prompt Templates ---
-
 IDEA_PROMPT_TEMPLATE = """
 Rewrite the following startup idea into a structured, technical product description.
 
@@ -23,12 +22,12 @@ Startup Idea:
 CORPUS_DESCRIPTION_PROMPT_TEMPLATE = """
 You're an AI assistant helping analyze early-stage AI startups for comparison with other startup ideas in the future. 
 Use your existing knowledge and the below product info to rewrite the startup description into a clear, concise, and technical product summary.
-Don't use lists or headers. Use clear, natural language as if summarizing for an investor or analyst.
+Don't use lists or headers. Use clear, natural language in full sentences as if summarizing for an investor or analyst.
 Limit the summary to 250 words max.
 
 Focus on:
 - What the product does and key pain points it aims to solve
-- Target market, users, and key use cases
+- Target market and key use cases
 - Key features or technologies
 - Unique value prop if available
 - Key drawbacks or limitations
@@ -45,6 +44,7 @@ CORPUS_COMMENT_PROMPT_TEMPLATE = """
 You're analyzing community feedback on a startup.
 Rewrite this comment into a clear, sentiment-rich insight about the product, based on both the user tone and your understanding of the product. 
 Retain original intent but make it informative. 
+Don't use lists or headers. Use clear, natural language in full sentences as if summarizing as a market analyst.
 
 Here is a user or founder comment about the product '{name}'.
 User Comment:

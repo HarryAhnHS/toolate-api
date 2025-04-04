@@ -1,20 +1,22 @@
-# enhance_corpus.py
-
 import json, os, signal, sys
 from tqdm import tqdm
+from datetime import datetime
 from app.utils.standardizer import standardize_batch
 
 INPUT_FILE = "app/data/corpus/ph_raw_corpus.json"
 OUTPUT_FILE = "app/data/corpus/ph_enhanced_corpus.json"
 BATCH_SIZE = 5
+CACHE_FOLDER = "app/data/corpus/cache/"
+CACHE_EVERY_N_BATCHES = 20
 
 # --- Enhancement Version ---
 # v1: initial enhancement
 # v2: natural formatting and word limiting in prompts to improve output quality and prevent RAG embedding failures
 CURRENT_ENHANCEMENT_VERSION = "v2"
 
-# Global corpus for Ctrl+C save
-enhanced_corpus = []
+# --- Global Variables ---
+enhanced_corpus = [] # Global corpus for Ctrl+C save
+
 
 def load_corpus(path):
     try:
@@ -30,6 +32,13 @@ def save_corpus(path, data):
     with open(path, "w") as f:
         json.dump(data, f, indent=2)
 
+def save_checkpoint(data, batch_idx):
+    os.makedirs(CACHE_FOLDER, exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    path = os.path.join(CACHE_FOLDER, f"ph_enhanced_checkpoint_batch{batch_idx}_{timestamp}.json")
+    save_corpus(path, data)
+    print(f"💾 Cached checkpoint at {path}")
+
 def handle_exit(sig, frame):
     print("\n⚠️ Interrupted. Saving current progress...")
     save_corpus(OUTPUT_FILE, enhanced_corpus)
@@ -41,31 +50,38 @@ signal.signal(signal.SIGINT, handle_exit)
 def enhance_corpus():
     global enhanced_corpus
 
-    raw_corpus = load_corpus(INPUT_FILE)
+    total_raw_corpus = load_corpus(INPUT_FILE)
     enhanced_corpus = load_corpus(OUTPUT_FILE)
 
-    # Use ID map to dedupe
-    enhanced_ids = {e["id"] for e in enhanced_corpus}
-
     # ENTRIES TO ENHANCE - never been enhanced yet
-    remaining = [entry for entry in raw_corpus if not entry.get("isEnhanced")]
+    # Build ID map of already enhanced entries
+    enhanced_ids = {entry["id"] for entry in enhanced_corpus}
+    # Filter: keep only entries that haven't yet been enhanced
+    remaining = [entry for entry in total_raw_corpus if entry["id"] not in enhanced_ids]
     
-    print("Out of a total of", len(raw_corpus), "entries in raw corpus:")
-    print(f"🔍 {len(enhanced_ids)} entries already enhanced.")
+    print("Out of a total of", len(total_raw_corpus), "entries in raw corpus:")
+    print(f"🔍 {len(enhanced_corpus)} entries already enhanced.")
     print(f"🧠 Enhancing {len(remaining)} remaining entries...\n")
 
     for i in tqdm(range(0, len(remaining), BATCH_SIZE)):
         batch = remaining[i:i + BATCH_SIZE]
+        batch_num = (i // BATCH_SIZE) + 1
         try:
-            print(f"🔍 Enhancing Batch {(i / BATCH_SIZE) + 1} ~ ['{batch[0]['id']}'... '{batch[-1]['id']}']")
+            print(f"🔍 Enhancing Batch {batch_num} ~ ['{batch[0]['id']}'... '{batch[-1]['id']}']")
             enhanced_batch = standardize_batch(batch, version=CURRENT_ENHANCEMENT_VERSION)
             enhanced_corpus.extend(enhanced_batch)
 
-            save_corpus(OUTPUT_FILE, enhanced_corpus)  # ✅ rewrite at each batch
+            # Rewrite to corpus at each batch
+            save_corpus(OUTPUT_FILE, enhanced_corpus)
+
             print(f"✅ Appended and saved {len(enhanced_batch)} new entries!")
             print(f"✅ Total enhanced entries: {len(enhanced_corpus)}")
+
+            # Save checkpoint every N batches - learnt the hard way...
+            if batch_num % CACHE_EVERY_N_BATCHES == 0:
+                save_checkpoint(enhanced_corpus, batch_num)
         except Exception as e:
-            print(f"❌ Error in batch {i - BATCH_SIZE + 1}: {e}")
+            print(f"❌ Error in batch {batch_num}: {e}")
             continue
 
     print(f"\n✅ All done. Enhanced corpus saved to {OUTPUT_FILE}")
