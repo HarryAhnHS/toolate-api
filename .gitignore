@@ -1,40 +1,22 @@
-# Python
 __pycache__/
 *.py[cod]
 *.egg-info/
 *.log
 
-# Virtual env
 venv/
 
-# VSCode / Cursor
-.vscode/
-
-# FAISS and model cache
-app/data/*.faiss
-app/data/*.npy
-
-# Hugging Face model cache (optional if needed)
-~/.cache/huggingface/
-
-# Environment files
 .env
-.env.*
 
-# macOS junk
-.DS_Store
-
-# Cache
 .cache/
+
+# Embedding/Index artifacts
+app/data/rag/*.faiss
+app/data/rag/*.npy
 
 # Large or derived data files
 app/data/corpus/ph_raw_corpus.json
 app/data/corpus/ph_enhanced_corpus.json
 app/data/scrapes/ph_ai_scrape.json
-
-# Embedding/Index artifacts
-app/data/rag/corpus_*.faiss
-app/data/rag/corpus_embeddings.npy
 
 # Checkpoint files
 app/data/corpus/cache/ph_enhanced_cp_*.json

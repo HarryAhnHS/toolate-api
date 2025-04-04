@@ -2,12 +2,13 @@ import json, os, signal, sys
 from tqdm import tqdm
 from datetime import datetime
 from app.utils.standardizer import standardize_batch
+import random
 
 INPUT_FILE = "app/data/corpus/ph_raw_corpus.json"
 OUTPUT_FILE = "app/data/corpus/ph_enhanced_corpus.json"
 BATCH_SIZE = 5
 CACHE_FOLDER = "app/data/corpus/cache/"
-CACHE_EVERY_N_BATCHES = 40
+CACHE_EVERY_N_BATCHES = 100
 
 # --- Enhancement Version ---
 # v1: initial enhancement
@@ -16,7 +17,6 @@ CURRENT_ENHANCEMENT_VERSION = "v2"
 
 # --- Global Variables ---
 enhanced_corpus = [] # Global corpus for Ctrl+C save
-
 
 def load_corpus(path):
     try:
@@ -63,17 +63,27 @@ def enhance_corpus():
     print(f"🔍 {len(enhanced_corpus)} entries already enhanced.")
     print(f"🧠 Enhancing {len(remaining)} remaining entries...\n")
 
-    for i in tqdm(range(0, len(remaining), BATCH_SIZE)):
-        batch = remaining[i:i + BATCH_SIZE]
-        batch_num = (i // BATCH_SIZE) + 1
+    seen_ids = set() # track seen IDs to avoid duplicates in this run
+    total_batches = len(remaining) // BATCH_SIZE + (len(remaining) % BATCH_SIZE > 0)
+
+    for batch_num in tqdm(range(1, total_batches + 1)):
+        available = [entry for entry in remaining if entry["id"] not in seen_ids]
+        if not available:
+            break
+
+        # Randomly sample BATCH_SIZE entries from available in remaining
+        batch = random.sample(available, min(BATCH_SIZE, len(available)))
+
         try:
             print(f"🔍 Enhancing Batch {batch_num} ~ ['{batch[0]['id']}'... '{batch[-1]['id']}']")
             enhanced_batch = standardize_batch(batch, version=CURRENT_ENHANCEMENT_VERSION)
             enhanced_corpus.extend(enhanced_batch)
 
+            # Update seen IDs to keep sample unique
+            seen_ids.update(entry["id"] for entry in batch)
+
             # Rewrite to corpus at each batch
             save_corpus(OUTPUT_FILE, enhanced_corpus)
-
             print(f"✅ Appended and saved {len(enhanced_batch)} new entries!")
             print(f"✅ Total enhanced entries: {len(enhanced_corpus)}")
 

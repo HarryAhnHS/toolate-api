@@ -109,13 +109,15 @@ def standardize_entry(entry: dict, version: str) -> str:
     prompt = build_prompt(entry)
     try:
         standardized = call_llm_with_retry(prompt)
-        entry["standardized"] = standardized
-        entry["isEnhanced"] = True
-        entry["enhancementVersion"] = version
-        entry["enhancedAt"] = datetime.now(timezone.utc).isoformat() 
+        if standardized:
+            entry["standardized"] = standardized
+            entry["isEnhanced"] = True
+            entry["enhancementVersion"] = version
+            entry["enhancedAt"] = datetime.now(timezone.utc).isoformat() 
+            return entry
     except Exception as e:
         print(f"❌ Error standardizing entry {entry['id']}: {e}")
-    return entry
+    return None
 
 # FOLLOWING IS NOT SUPPORTED BY TOGETHER.AI DUE TO 1 QPS LIMIT - but good to implement for future use
 # --- Batched, Threaded Standardization ---
