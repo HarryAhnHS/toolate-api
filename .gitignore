@@ -26,3 +26,15 @@ app/data/*.npy
 
 # Cache
 .cache/
+
+# Large or derived data files
+app/data/corpus/ph_raw_corpus.json
+app/data/corpus/ph_enhanced_corpus.json
+app/data/scrapes/ph_ai_scrape.json
+
+# Embedding/Index artifacts
+app/data/rag/corpus_*.faiss
+app/data/rag/corpus_embeddings.npy
+
+# Checkpoint files
+app/data/corpus/cache/ph_enhanced_cp_*.json
