@@ -3,7 +3,7 @@ import os
 from datetime import datetime, timezone
 
 INPUT_PATH = "app/data/corpus/ph_enhanced_corpus.json"
-BACKUP_PATH = "app/data/corpus/ph_enhanced_corpus_backup.json"
+BACKUP_PATH = "app/data/corpus/cache/checkpoints/ph_enhanced_corpus_backup.json"
 VERSION = "v1"
 
 def main():

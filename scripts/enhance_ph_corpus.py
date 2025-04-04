@@ -7,7 +7,7 @@ import random
 INPUT_FILE = "app/data/corpus/ph_raw_corpus.json"
 OUTPUT_FILE = "app/data/corpus/ph_enhanced_corpus.json"
 BATCH_SIZE = 5
-CACHE_FOLDER = "app/data/corpus/cache/"
+CACHE_FOLDER = ".cache/corpus/checkpoints/"
 CACHE_EVERY_N_BATCHES = 100
 
 # --- Enhancement Version ---

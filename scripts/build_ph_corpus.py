@@ -4,7 +4,7 @@ import json
 import os
 from tqdm import tqdm
 
-INPUT_FILE = "app/data/scrapes/ph_ai_scrape.json"
+INPUT_FILE = "app/data/scrapes/ph_scrape.json"
 OUTPUT_FILE = "app/data/corpus/ph_raw_corpus.json"
 
 # extract tags from post

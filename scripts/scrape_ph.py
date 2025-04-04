@@ -14,9 +14,9 @@ MAX_WAIT_TIME = 900 + POLITE_DELTA # 15 minutes + 5 seconds for polite
 MAX_FAILURES = 10  # Number of consecutive failed attempts allowed
 CONSECUTIVE_FAILURES = 0
 
-OUTPUT_FILE = "app/data/scrapes/ph_ai_scrape.json"
-AUTOMATA_CACHE_FILE = "app/data/scrapes/cache/ph_ai_automata_cache.json"
-CACHE_FOLDER = "app/data/scrapes/cache/checkpoints/"
+OUTPUT_FILE = "app/data/scrapes/ph_scrape.json"
+PROGRESS_CACHE_FILE = ".cache/scrapes/meta_ph/ph_progress_cache.json"
+CACHE_FOLDER = ".cache/scrapes/checkpoints_ph/"
 CACHE_EVERY_N_BATCHES = 400
 
 HEADERS = {
@@ -37,8 +37,8 @@ cache_map = {
 
 # OS helpers
 def load_cache():
-    if os.path.exists(AUTOMATA_CACHE_FILE):
-        with open(AUTOMATA_CACHE_FILE, "r") as f:
+    if os.path.exists(PROGRESS_CACHE_FILE):
+        with open(PROGRESS_CACHE_FILE, "r") as f:
             try:
                 data = json.load(f)
                 cache_map["after"] = data.get("after")
@@ -49,8 +49,8 @@ def load_cache():
                 print("⚠️ Failed to load cache; using defaults.")
 
 def save_cache():
-    os.makedirs(os.path.dirname(AUTOMATA_CACHE_FILE), exist_ok=True)
-    with open(AUTOMATA_CACHE_FILE, "w") as f:
+    os.makedirs(os.path.dirname(PROGRESS_CACHE_FILE), exist_ok=True)
+    with open(PROGRESS_CACHE_FILE, "w") as f:
         json.dump(cache_map, f, indent=2)
 
 def save_checkpoint(data, batch_idx):

@@ -3,8 +3,10 @@ import requests
 import os
 from app.utils.ph_auth import get_cached_token
 
-SCHEMA_PATH = "app/data/scrapes/ph_schema.json"
+SCHEMA_PATH = "app/data/scrapes/ph_api_schema.json"
 
+# Test query to get schema of API - lack of documentation on Product Hunt API
+# https://www.apollographql.com/docs/apollo-server/schema/introspection/
 INTROSPECTION_QUERY = {
     "query": """
     query IntrospectionQuery {

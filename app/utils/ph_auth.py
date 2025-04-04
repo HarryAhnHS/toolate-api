@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-CACHE_PATH = ".cache/ph_token.json"
+CACHE_PATH = ".cache/ph/auth/ph_token.json"
 
 # Call access token endpoint to get access token
 def get_ph_token():
