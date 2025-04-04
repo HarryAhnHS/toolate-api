@@ -7,14 +7,13 @@ venv/
 
 .env
 
-# centralized cache files
 .cache/
 
-# Embedding/Index artifacts
 app/data/rag/*.faiss
 app/data/rag/*.npy
 
-# Large or derived data files
 app/data/corpus/ph_raw_corpus.json
 app/data/corpus/ph_enhanced_corpus.json
 app/data/scrapes/ph_scrape.json
+
+app/data/rag/indexes/
