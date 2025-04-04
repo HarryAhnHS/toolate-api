@@ -21,8 +21,10 @@ Startup Idea:
 """
 
 CORPUS_DESCRIPTION_PROMPT_TEMPLATE = """
-You're an AI assistant helping analyze early-stage AI startups. 
+You're an AI assistant helping analyze early-stage AI startups for comparison with other startup ideas in the future. 
 Use your existing knowledge and the below product info to rewrite the startup description into a clear, concise, and technical product summary.
+Don't use lists or headers. Use clear, natural language as if summarizing for an investor or analyst.
+Limit the summary to 250 words max.
 
 Focus on:
 - What the product does and key pain points it aims to solve
@@ -41,21 +43,19 @@ Raw Description:
 
 CORPUS_COMMENT_PROMPT_TEMPLATE = """
 You're analyzing community feedback on a startup.
+Rewrite this comment into a clear, sentiment-rich insight about the product, based on both the user tone and your understanding of the product. 
+Retain original intent but make it informative. 
 
-Here is a user or founder comment about the AI product {name}. Use the product context below to interpret the comment meaningfully.
+Here is a user or founder comment about the product '{name}'.
+User Comment:
+\"\"\"{comment}\"\"\"
 
+If vague, try to infer context using product information. Use the product description below to interpret comment meaningfully.
 Startup Name: {name}
 Tags: {tags}
 Created At: {createdAt}
 Product Description:
 \"\"\"{description}\"\"\"
-
-User Comment:
-\"\"\"{comment}\"\"\"
-
-Rewrite this comment into a clear, sentiment-rich insight about the product, based on both the user tone and your understanding of the product. Retain original intent but make it informative.
-
-If vague, try to infer context using product information.
 """
 
 

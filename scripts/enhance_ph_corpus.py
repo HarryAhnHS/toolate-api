@@ -6,10 +6,12 @@ from app.utils.standardizer import standardize_batch
 
 INPUT_FILE = "app/data/corpus/ph_raw_corpus.json"
 OUTPUT_FILE = "app/data/corpus/ph_enhanced_corpus.json"
-BATCH_SIZE = 10
+BATCH_SIZE = 5
 
 # --- Enhancement Version ---
-CURRENT_ENHANCEMENT_VERSION = "v1"
+# v1: initial enhancement
+# v2: natural formatting and word limiting in prompts to improve output quality and prevent RAG embedding failures
+CURRENT_ENHANCEMENT_VERSION = "v2"
 
 # Global corpus for Ctrl+C save
 enhanced_corpus = []
