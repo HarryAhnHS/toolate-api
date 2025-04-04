@@ -5,6 +5,7 @@ import os
 import time
 from tqdm import tqdm
 from dotenv import load_dotenv
+from datetime import datetime, timezone
 
 load_dotenv()
 
@@ -104,19 +105,22 @@ def call_llm_with_retry(prompt: str, retries: int = 2, delay: float = 2.0) -> st
             time.sleep(delay * (2 ** attempt))
     return ""
 
-def standardize_entry(entry: dict) -> str:
+def standardize_entry(entry: dict, version: str) -> str:
     prompt = build_prompt(entry)
     try:
         standardized = call_llm_with_retry(prompt)
         entry["standardized"] = standardized
+        entry["isEnhanced"] = True
+        entry["enhancementVersion"] = version
+        entry["enhancedAt"] = datetime.now(timezone.utc).isoformat() 
     except Exception as e:
         print(f"❌ Error standardizing entry {entry['id']}: {e}")
     return entry
 
 # FOLLOWING IS NOT SUPPORTED BY TOGETHER.AI DUE TO 1 QPS LIMIT - but good to implement for future use
 # --- Batched, Threaded Standardization ---
-def standardize_batch(entries: List[dict]) -> List[dict]:
-    return [standardize_entry(e) for e in entries]
+def standardize_batch(entries: List[dict], version: str) -> List[dict]:
+    return [standardize_entry(e, version) for e in entries]
 
 # multi-threaded standardization - not supported by together.ai due to 1 QPS limit
 def standardize_concurrently(

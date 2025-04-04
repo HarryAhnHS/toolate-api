@@ -8,6 +8,9 @@ INPUT_FILE = "app/data/corpus/ph_raw_corpus.json"
 OUTPUT_FILE = "app/data/corpus/ph_enhanced_corpus.json"
 BATCH_SIZE = 10
 
+# --- Enhancement Version ---
+CURRENT_ENHANCEMENT_VERSION = "v1"
+
 # Global corpus for Ctrl+C save
 enhanced_corpus = []
 
@@ -41,8 +44,9 @@ def enhance_corpus():
 
     # Use ID map to dedupe
     enhanced_ids = {e["id"] for e in enhanced_corpus}
-    # Entries that haven't been enhanced yet to process
-    remaining = [entry for entry in raw_corpus if entry["id"] not in enhanced_ids]
+
+    # ENTRIES TO ENHANCE - never been enhanced yet
+    remaining = [entry for entry in raw_corpus if not entry.get("isEnhanced")]
     
     print("Out of a total of", len(raw_corpus), "entries in raw corpus:")
     print(f"🔍 {len(enhanced_ids)} entries already enhanced.")
@@ -52,7 +56,7 @@ def enhance_corpus():
         batch = remaining[i:i + BATCH_SIZE]
         try:
             print(f"🔍 Enhancing Batch {(i / BATCH_SIZE) + 1} ~ ['{batch[0]['id']}'... '{batch[-1]['id']}']")
-            enhanced_batch = standardize_batch(batch)
+            enhanced_batch = standardize_batch(batch, version=CURRENT_ENHANCEMENT_VERSION)
             enhanced_corpus.extend(enhanced_batch)
 
             save_corpus(OUTPUT_FILE, enhanced_corpus)  # ✅ rewrite at each batch
