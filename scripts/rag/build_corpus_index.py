@@ -1,25 +1,32 @@
 import json
 import os
+
+#cleanup
+import gc
+import torch
+
 import faiss
 import numpy as np
-from tqdm import tqdm
 from sentence_transformers import SentenceTransformer
 from typing import List, Dict
 
-from app.core.config import EMBED_MODEL_NAME, DATA_DIR, DESCRIPTION_INDEX, COMMENT_INDEX, DESC_META, COMM_META
+from app.core.config import EMBED_MODEL_NAME, INDEX_DIR, META_DIR, DESCRIPTION_INDEX_PATH, COMMENT_INDEX_PATH, DESCRIPTION_META_PATH, COMMENT_META_PATH
 
+META_OUTPUT_DIR = META_DIR
+INDEX_OUTPUT_DIR = INDEX_DIR
 
 ENTRY_PATHS = [{
     "type": "description",
-    "index_path": DESCRIPTION_INDEX,
-    "meta_path": DESC_META
+    "index_path": DESCRIPTION_INDEX_PATH,
+    "meta_path": DESCRIPTION_META_PATH
 }, {
     "type": "comment",
-    "index_path": COMMENT_INDEX,
-    "meta_path": COMM_META
+    "index_path": COMMENT_INDEX_PATH,
+    "meta_path": COMMENT_META_PATH
 }]
+# currently test file with about 1200 entries - 521 descriptions, 785 comments
 CORPUS_FILE = "app/data/corpus/test_enhanced_corpus.json"
-OUTPUT_DIR = DATA_DIR
+
 
 # UTILS
 def load_corpus(file_path: str) -> List[Dict]: # load ENHANCEDcorpus from file
@@ -36,8 +43,6 @@ def embed_texts(texts: List[str], model: SentenceTransformer) -> np.ndarray: # c
         texts,
         convert_to_numpy=True,
         normalize_embeddings=True, # for cosine or L2 distance
-
-        # these params are for multiple query handling
         show_progress_bar=True,
         batch_size=16,
         num_workers=0
@@ -60,7 +65,9 @@ def extract_entries(corpus: List[Dict], entry_type: str): # use this to extract 
 
 # MAIN PIPELINE - extract, embed, build index, save metadata
 def embed_and_index():
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    # Make output directories if they don't exist
+    os.makedirs(META_OUTPUT_DIR, exist_ok=True)
+    os.makedirs(INDEX_OUTPUT_DIR, exist_ok=True)
 
     corpus = load_corpus(CORPUS_FILE)
     model = SentenceTransformer(EMBED_MODEL_NAME)
@@ -82,6 +89,11 @@ def embed_and_index():
         save_json(metas, entry["meta_path"])
 
         print(f"Done: {entry['index_path']} | {entry['meta_path']}")
+    
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
 
 if __name__ == "__main__":
     embed_and_index()

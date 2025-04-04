@@ -7,6 +7,8 @@ from tqdm import tqdm
 from dotenv import load_dotenv
 from datetime import datetime, timezone
 
+from app.core.config import LLM_MODEL_NAME
+
 load_dotenv()
 
 client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
@@ -64,7 +66,7 @@ Product Description:
 def standardize_idea(idea: str) -> str:
     prompt = IDEA_PROMPT_TEMPLATE.format(idea=idea)
     response = client.chat.completions.create(
-        model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
+        model=LLM_MODEL_NAME,
         messages=[{"role": "user", "content": prompt}]
     )
     return response.choices[0].message.content.strip()
@@ -96,7 +98,7 @@ def call_llm_with_retry(prompt: str, retries: int = 2, delay: float = 2.0) -> st
         try:
             time.sleep(1)  # 🧘 1 QPS throttle
             response = client.chat.completions.create(
-                model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
+                model=LLM_MODEL_NAME,
                 messages=[{"role": "user", "content": prompt}],
             )
             return response.choices[0].message.content.strip()

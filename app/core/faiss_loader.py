@@ -1,14 +1,13 @@
 # handles loading + caching FAISS indexes and metadata in retrieval 
 import faiss
 import json
-import os
 from typing import Tuple, List, Dict
 
 from core.config import (
-    DESCRIPTION_INDEX,
-    COMMENT_INDEX,
-    DESC_META,
-    COMM_META
+    DESCRIPTION_INDEX_PATH,
+    COMMENT_INDEX_PATH,
+    DESCRIPTION_META_PATH,
+    COMMENT_META_PATH
 )
 
 # Internal cache for loaded indexes and metadata
@@ -31,11 +30,11 @@ def get_faiss_resources(entry_type: str) -> Tuple[faiss.Index, List[Dict]]:
     """
     if entry_type not in _index_cache:
         if entry_type == "description":
-            index = _load_faiss_index(DESCRIPTION_INDEX)
-            meta = _load_metadata(DESC_META)
+            index = _load_faiss_index(DESCRIPTION_INDEX_PATH)
+            meta = _load_metadata(DESCRIPTION_META_PATH)
         elif entry_type == "comment":
-            index = _load_faiss_index(COMMENT_INDEX)
-            meta = _load_metadata(COMM_META)
+            index = _load_faiss_index(COMMENT_INDEX_PATH)
+            meta = _load_metadata(COMMENT_META_PATH)
         else:
             raise ValueError(f"Unknown entry_type: {entry_type}")
         
