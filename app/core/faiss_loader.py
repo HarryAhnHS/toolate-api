@@ -3,7 +3,7 @@ import faiss
 import json
 from typing import Tuple, List, Dict
 
-from core.config import (
+from app.core.config import (
     DESCRIPTION_INDEX_PATH,
     COMMENT_INDEX_PATH,
     DESCRIPTION_META_PATH,

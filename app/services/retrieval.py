@@ -7,8 +7,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from core.faiss_loader import get_faiss_resources
-from core.config import EMBED_MODEL_NAME
+from app.core.faiss_loader import get_faiss_resources
+from app.core.config import EMBED_MODEL_NAME
+
 # Initialize the embedding model globally
 model = SentenceTransformer(EMBED_MODEL_NAME)
 

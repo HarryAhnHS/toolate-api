@@ -12,8 +12,8 @@ venv/
 app/data/rag/*.faiss
 app/data/rag/*.npy
 
-app/data/corpus/ph_raw_corpus.json
-app/data/corpus/ph_enhanced_corpus.json
+app/data/corpus/*.json
 app/data/scrapes/ph_scrape.json
 
-app/data/rag/indexes/
+app/data/rag/indexes/*.faiss
+app/data/rag/meta/*.json
