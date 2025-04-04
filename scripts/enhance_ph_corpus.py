@@ -47,6 +47,29 @@ def handle_exit(sig, frame):
 
 signal.signal(signal.SIGINT, handle_exit)
 
+def random_balanced_batch(remaining, seen_ids, batch_size=5, desc_ratio=0.4):
+    """
+    Returns a balanced random batch of description and comment entries.
+    Filters out entries already in seen_ids.
+    """
+    available = [entry for entry in remaining if entry["id"] not in seen_ids]
+    if not available:
+        return []
+
+    descriptions = [e for e in available if e["type"] == "description"]
+    comments = [e for e in available if e["type"] == "comment"]
+
+    desc_sample_size = max(1, int(batch_size * desc_ratio))
+    comment_sample_size = batch_size - desc_sample_size
+
+    desc_sample = random.sample(descriptions, min(desc_sample_size, len(descriptions)))
+    comment_sample = random.sample(comments, min(comment_sample_size, len(comments)))
+
+    batch = desc_sample + comment_sample
+    random.shuffle(batch)
+    return batch
+
+
 def enhance_corpus():
     global enhanced_corpus
 
@@ -67,12 +90,11 @@ def enhance_corpus():
     total_batches = len(remaining) // BATCH_SIZE + (len(remaining) % BATCH_SIZE > 0)
 
     for batch_num in tqdm(range(1, total_batches + 1)):
-        available = [entry for entry in remaining if entry["id"] not in seen_ids]
-        if not available:
-            break
-
         # Randomly sample BATCH_SIZE entries from available in remaining
-        batch = random.sample(available, min(BATCH_SIZE, len(available)))
+        batch = random_balanced_batch(remaining, seen_ids, batch_size=BATCH_SIZE, desc_ratio=0.4)
+        if not batch:
+            print("⚠️ No more entries to sample from.")
+            break
 
         try:
             print(f"🔍 Enhancing Batch {batch_num} ~ ['{batch[0]['id']}'... '{batch[-1]['id']}']")
