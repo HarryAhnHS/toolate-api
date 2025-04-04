@@ -19,4 +19,6 @@ app/data/corpus/ph_enhanced_corpus.json
 app/data/scrapes/ph_ai_scrape.json
 
 # Checkpoint files
-app/data/corpus/cache/ph_enhanced_cp_*.json
+app/data/scrapes/cache/*
+app/data/corpus/cache/*
+app/data/scrapes/ph_ai_automata_cache.json
