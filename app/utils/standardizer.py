@@ -1,16 +1,17 @@
 from together import Together
 from concurrent.futures import ThreadPoolExecutor
-from typing import List
-
+from typing import List, Callable
 import os
+import time
+from tqdm import tqdm
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# Standardize the description/input prior to embedding
 client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
 
-# USER PROMPTS
+# --- Prompt Templates ---
+
 IDEA_PROMPT_TEMPLATE = """
 Rewrite the following startup idea into a structured, technical product description.
 
@@ -18,18 +19,20 @@ Startup Idea:
 \"\"\"{idea}\"\"\"
 """
 
-# CORPUS PROMPTS
 CORPUS_DESCRIPTION_PROMPT_TEMPLATE = """
-You're an AI assistant helping analyze early-stage AI startups. Based on the following raw Product Hunt data, rewrite the startup description into a clear, concise, and technical product summary.
+You're an AI assistant helping analyze early-stage AI startups. 
+Use your existing knowledge and the below product info to rewrite the startup description into a clear, concise, and technical product summary.
 
-Include:
-- What the product does
-- Target users or use case
+Focus on:
+- What the product does and key pain points it aims to solve
+- Target market, users, and key use cases
 - Key features or technologies
 - Unique value prop if available
+- Key drawbacks or limitations
 
 Startup Name: {name}
 Startup Tags: {tags}
+Startup Created At: {createdAt}
 
 Raw Description:
 \"\"\"{description}\"\"\"
@@ -38,48 +41,108 @@ Raw Description:
 CORPUS_COMMENT_PROMPT_TEMPLATE = """
 You're analyzing community feedback on a startup.
 
-Below is a user comment about a new AI product, along with basic product info. Rewrite the comment to clearly explain the insight or opinion, using the product context when needed.
+Here is a user or founder comment about the AI product {name}. Use the product context below to interpret the comment meaningfully.
 
 Startup Name: {name}
-Startup Tags: {tags}
-Startup Description: {description}
+Tags: {tags}
+Created At: {createdAt}
+Product Description:
+\"\"\"{description}\"\"\"
 
 User Comment:
 \"\"\"{comment}\"\"\"
 
-Rewrite:
+Rewrite this comment into a clear, sentiment-rich insight about the product, based on both the user tone and your understanding of the product. Retain original intent but make it informative.
+
+If vague, try to infer context using product information.
 """
 
-# STANDARDIZATION FUNCTIONS
-def standardize_entry(entry: dict) -> str:
-    match entry["type"]:
-        case "description":
-            description = entry["text"]
-            name = entry["meta"]["name"]
-            tags = ", ".join(entry["meta"].get("tags", []))
-            prompt = CORPUS_DESCRIPTION_PROMPT_TEMPLATE.format(name=name, description=description, tags=tags)
-        case "comment":
-            comment = entry["text"]
-            prompt = CORPUS_COMMENT_PROMPT_TEMPLATE.format(comment=comment)
-        case _:
-            raise ValueError("Invalid type. Must be a supported entry type.")
-    
-    response = client.chat.completions.create(
-        model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.choices[0].message.content.strip()
+
+# --- LLM Wrappers ---
 
 def standardize_idea(idea: str) -> str:
     prompt = IDEA_PROMPT_TEMPLATE.format(idea=idea)
     response = client.chat.completions.create(
         model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
-        messages=[{"role": "user", "content": prompt}],
+        messages=[{"role": "user", "content": prompt}]
     )
     return response.choices[0].message.content.strip()
 
-# use ThreadPoolExecutor to standardize descriptions concurrently
-def concurrently(standardize_fn: function, entries: List[dict]) -> List[str]:
-    with ThreadPoolExecutor(max_workers=10) as executor:
-        results = list(executor.map(standardize_fn, entries))
+
+def build_prompt(entry: dict) -> str:
+    match entry["type"]:
+        case "description":
+            return CORPUS_DESCRIPTION_PROMPT_TEMPLATE.format(
+                name=entry["meta"].get("name", ""),
+                tags=", ".join(entry["meta"].get("tags", [])),
+                createdAt=entry["meta"].get("createdAt", ""),
+                description=entry.get("text", "")
+            )
+        case "comment":
+            return CORPUS_COMMENT_PROMPT_TEMPLATE.format(
+                name=entry["meta"].get("parent_name", ""),
+                tags=", ".join(entry["meta"].get("parent_tags", [])),
+                createdAt=entry["meta"].get("parent_createdAt", ""),
+                description=entry["meta"].get("parent_description", ""),
+                comment=entry.get("text", "")
+            )
+        case _:
+            raise ValueError("Invalid entry type")
+
+
+def call_llm_with_retry(prompt: str, retries: int = 2, delay: float = 2.0) -> str:
+    for attempt in range(retries):
+        try:
+            time.sleep(1)  # 🧘 1 QPS throttle
+            response = client.chat.completions.create(
+                model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
+                messages=[{"role": "user", "content": prompt}],
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as e:
+            print(f"❌ Retry {attempt+1}: {e}")
+            time.sleep(delay * (2 ** attempt))
+    return ""
+
+def standardize_entry(entry: dict) -> str:
+    prompt = build_prompt(entry)
+    try:
+        standardized = call_llm_with_retry(prompt)
+        entry["standardized"] = standardized
+    except Exception as e:
+        print(f"❌ Error standardizing entry {entry['id']}: {e}")
+    return entry
+
+# FOLLOWING IS NOT SUPPORTED BY TOGETHER.AI DUE TO 1 QPS LIMIT - but good to implement for future use
+# --- Batched, Threaded Standardization ---
+def standardize_batch(entries: List[dict]) -> List[dict]:
+    return [standardize_entry(e) for e in entries]
+
+# multi-threaded standardization - not supported by together.ai due to 1 QPS limit
+def standardize_concurrently(
+    entries: List[dict],
+    batch_size: int = 5,
+    max_workers: int = 8,
+    on_batch_complete: Callable[[List[dict]], None] = None
+) -> List[dict]:
+    global current_results
+    
+    results = []
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = []
+        for i in range(0, len(entries), batch_size):
+            batch = entries[i:i + batch_size]
+            futures.append(executor.submit(standardize_batch, batch))
+
+        for future in tqdm(futures):
+            try:
+                batch_result = future.result()
+                results.extend(batch_result)
+                current_results.extend(batch_result)
+
+                if on_batch_complete:
+                    on_batch_complete(batch_result)
+            except Exception as e:
+                print(f"❌ Error in batch: {e}")
+
     return results

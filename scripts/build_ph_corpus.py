@@ -45,6 +45,7 @@ def generate_corpus_entry(post):
             "meta": {
                 "parent_id": post_id, # to group chunks by post
                 "parent_name": post["name"],
+                "parent_description": post["description"].strip(),
                 "parent_url": post["url"],
                 "parent_createdAt": post["createdAt"],
                 "parent_tags": extract_tags(post.get("topics"))

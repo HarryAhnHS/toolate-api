@@ -1,20 +1,68 @@
-import json
-from app.utils.llm import standardize_concurrently
-# Load the corpus into dictionary
-with open("app/data/corpus/ph_raw_corpus.json", "r") as f:
-    corpus = json.load(f) 
+# enhance_corpus.py
 
-# Extract descriptions from the corpus + standardize each description 
-descriptions = standardize_concurrently(corpus)
-print(f"Successfully standardized {len(corpus)} descriptions!")
-print(f"Descriptions: {descriptions[0:1]}")
+import json, os, signal, sys
+from tqdm import tqdm
+from app.utils.standardizer import standardize_batch
 
-# Update corpus with standardized summaries if they don't exist or are different
-print("Updating corpus with standardized descriptions...")
-for i, entry in enumerate(corpus):
-    entry["standardized_description"] = descriptions[i]
-print("Successfully updated corpus with standardized descriptions!")
+INPUT_FILE = "app/data/corpus/ph_raw_corpus.json"
+OUTPUT_FILE = "app/data/corpus/ph_enhanced_corpus.json"
+BATCH_SIZE = 10
 
-# Save the updated corpus back to JSON
-with open("app/data/corpus.json", "w") as f:
-    json.dump(corpus, f, indent=2)
+# Global corpus for Ctrl+C save
+enhanced_corpus = []
+
+def load_corpus(path):
+    try:
+        if os.path.exists(path) and os.path.getsize(path) > 0:
+            with open(path, "r") as f:
+                return json.load(f)
+    except (json.JSONDecodeError, FileNotFoundError):
+        print(f"⚠️ No valid corpus found at {path}, starting fresh")
+    return []
+
+def save_corpus(path, data):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w") as f:
+        json.dump(data, f, indent=2)
+
+def handle_exit(sig, frame):
+    print("\n⚠️ Interrupted. Saving current progress...")
+    save_corpus(OUTPUT_FILE, enhanced_corpus)
+    print("✅ Saved. Exiting.")
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, handle_exit)
+
+def enhance_corpus():
+    global enhanced_corpus
+
+    raw_corpus = load_corpus(INPUT_FILE)
+    enhanced_corpus = load_corpus(OUTPUT_FILE)
+
+    # Use ID map to dedupe
+    enhanced_ids = {e["id"] for e in enhanced_corpus}
+    # Entries that haven't been enhanced yet to process
+    remaining = [entry for entry in raw_corpus if entry["id"] not in enhanced_ids]
+    
+    print("Out of a total of", len(raw_corpus), "entries in raw corpus:")
+    print(f"🔍 {len(enhanced_ids)} entries already enhanced.")
+    print(f"🧠 Enhancing {len(remaining)} remaining entries...\n")
+
+    for i in tqdm(range(0, len(remaining), BATCH_SIZE)):
+        batch = remaining[i:i + BATCH_SIZE]
+        try:
+            print(f"🔍 Enhancing Batch {(i / BATCH_SIZE) + 1} ~ ['{batch[0]['id']}'... '{batch[-1]['id']}']")
+            enhanced_batch = standardize_batch(batch)
+            enhanced_corpus.extend(enhanced_batch)
+
+            save_corpus(OUTPUT_FILE, enhanced_corpus)  # ✅ rewrite at each batch
+            print(f"✅ Appended and saved {len(enhanced_batch)} new entries!")
+            print(f"✅ Total enhanced entries: {len(enhanced_corpus)}")
+        except Exception as e:
+            print(f"❌ Error in batch {i - BATCH_SIZE + 1}: {e}")
+            continue
+
+    print(f"\n✅ All done. Enhanced corpus saved to {OUTPUT_FILE}")
+
+if __name__ == "__main__":
+    enhance_corpus()
