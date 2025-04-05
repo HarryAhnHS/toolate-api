@@ -5,11 +5,11 @@ from typing import List, Dict
 def print_results(results: List[Dict]):
     print("\n🧠 Top Company Matches:\n" + "-"*40)
     for company in results:
-        best_score = company['min_score']
+        min_score = company['min_score']
         product_meta = company['product_meta']
         print(f"🏢 Company: {product_meta['meta']['name']}")
         print(f"🏢 Company website: {product_meta['meta']['website']}")
-        print(f"⭐ Best Match Similarity Score: {best_score:.4f}")
+        print(f"⭐ Best Match Similarity Score: {min_score:.4f}")
 
         for match in company["matches"]:
             match_meta = match["match_meta"]
@@ -47,5 +47,6 @@ if __name__ == "__main__":
         exit(1)
 
     print(f"\n🔍 Searching for similar ideas to: “{query}”")
-    results = retrieve_top_k(query, top_k=3)
+    results, uniqueness = retrieve_top_k(query, top_k=3)
     print_results(results)
+    print(f"\n\n🔍 Uniqueness score: {uniqueness}")

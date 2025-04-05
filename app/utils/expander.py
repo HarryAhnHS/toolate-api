@@ -11,13 +11,13 @@ load_dotenv()
 client = Together(api_key=os.getenv("QUERY_EXPANSION_TOGETHER_API_KEY"))
 # --- Prompt Templates ---
 QUERY_EXPANSION_PROMPT_TEMPLATE = """
-You are an expert at rewriting startup ideas to generate semantically diverse paraphrases that aid in information retrieval.
-
 Expand the following startup idea into {n_expansions} semantically diverse paraphrases. 
-Each paraphrase should reframe the idea using different terminology, phrasing, or industry vocabulary — while keeping the core intent intact.
+Each paraphrase should use alternate terminology **within the same functional and domain boundaries**
+Do not change the domain or scope. The startup idea must remain in the same industry and solve the same class of problem.
+Avoid introducing generic or unrelated terms that might dilute the original specificity.
 
-For each paraphrase, use natural language in full sentences as if you are pitching to a VC or explaining in a startup accelerator. 
-Each paraphrase should be ≤150 words. 
+For each paraphrase, use natural language in full sentences. 
+Each paraphrase should be ≤100 words. 
 If the original idea is short, keep it concise; if it's long, rephrase with the same level of depth but stay within the word limit.
 
 Return the output as a JSON list of {n_expansions} strings. Example:

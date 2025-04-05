@@ -4,6 +4,7 @@ from typing import List, Dict
 from dotenv import load_dotenv
 import json
 from app.utils.expander import expand_query
+from app.utils.evaluator import calculate_uniqueness
 
 load_dotenv()
 
@@ -25,11 +26,12 @@ def create_query_expansions(raw_query: str, n_expansions: int = 3) -> List[str]:
     return expanded_queries
         
 # Embedding user prompt query into dense vector -> single query
-def embed_queries(queries: List[str]) -> np.ndarray:
+def embed_queries(queries: List[str], weights: List[float]) -> np.ndarray:
     """Embed a list of query expansions into vectors."""
     return model.encode(
         queries,
-        convert_to_numpy=True,
+        weights=weights,
+        convert_to_numpy=True, 
         normalize_embeddings=True, # must match index creation
         show_progress_bar=True,
         batch_size=16,
@@ -60,7 +62,6 @@ def dedupe_by_company(
 
     print(f"Deduplicating {len(results)} results...")
     for idx, score, source in results:
-        print(f"Processing result {idx} of {len(results)}: {score} from {source}")
         doc = desc_meta[idx] if source == "description" else comm_meta[idx]
         company_id = doc.get("company_id")
 
@@ -95,8 +96,8 @@ def dedupe_by_company(
         if score < company_groups[company_id]["min_score"]:
             company_groups[company_id]["min_score"] = float(score)
 
-    # Return top_k companies sorted by minimum score
-    return sorted(company_groups.values(), key=lambda x: x["min_score"])[:top_k]
+    # Return top_k companies sorted by minimum score + uniqueness score
+    return sorted(company_groups.values(), key=lambda x: x["min_score"])[:top_k], calculate_uniqueness(company_groups.values(), top_k)
 
 
 def retrieve_top_k(raw_query: str, top_k: int = 5) -> List[Dict]:
@@ -106,7 +107,9 @@ def retrieve_top_k(raw_query: str, top_k: int = 5) -> List[Dict]:
     """
     # -----EXPAND & EMBED QUERY-----
     expanded_queries = create_query_expansions(raw_query)  # expand raw query into n_expansions strings
-    query_vecs = embed_queries(expanded_queries)  # embed all expansions
+    queries = [raw_query] + expanded_queries
+    weights = [2.0] + [1.0] * len(expanded_queries)
+    query_vecs = embed_queries(queries, weights)  # embed all expansions
 
     # -----LOAD INDEXES-----
     desc_index, desc_meta = get_faiss_resources("description")
