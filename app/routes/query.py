@@ -28,8 +28,8 @@ class QueryResponse(BaseModel):
 
 @router.post("/query", response_model=QueryResponse)
 def query_similar_ideas(request: QueryRequest):
-    results = retrieve_top_k(request.idea, top_k=request.top_k)
+    results, uniqueness = retrieve_top_k(request.idea, top_k=request.top_k)
     return {
         "idea": request.idea,
-        "results": results
+        "results": results,
     }
