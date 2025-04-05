@@ -14,8 +14,7 @@ from app.core.config import EMBED_MODEL_NAME, INDEX_DIR, META_DIR, DESCRIPTION_I
 
 META_OUTPUT_DIR = META_DIR
 INDEX_OUTPUT_DIR = INDEX_DIR
-
-ENTRY_PATHS = [{
+INDEX_SCHEMA = [{
     "type": "description",
     "index_path": DESCRIPTION_INDEX_PATH,
     "meta_path": DESCRIPTION_META_PATH
@@ -24,8 +23,11 @@ ENTRY_PATHS = [{
     "index_path": COMMENT_INDEX_PATH,
     "meta_path": COMMENT_META_PATH
 }]
-# currently test file with about 1200 entries - 521 descriptions, 785 comments
-CORPUS_FILE = "app/data/corpus/test_enhanced_corpus.json"
+# test file with about 1300 entries - 521 descriptions, 785 comments
+# CORPUS_FILE = "app/data/corpus/test_enhanced_corpus.json"
+
+# production file with about 3000 entries - 1495 descriptions, 2248 comments
+CORPUS_FILE = "app/data/corpus/ph_enhanced_corpus.json"
 
 
 # UTILS
@@ -73,7 +75,7 @@ def embed_and_index():
     model = SentenceTransformer(EMBED_MODEL_NAME)
 
     # process each entry type
-    for entry in ENTRY_PATHS:
+    for entry in INDEX_SCHEMA:
         print(f"\n📦 Starting processing for '{entry['type']}' entries...")
         texts, metas = extract_entries(corpus, entry['type'])
         print(f"Found {len(texts)} {entry['type']} entries.")

@@ -13,14 +13,6 @@ load_dotenv()
 
 client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
 
-# --- Prompt Templates ---
-IDEA_PROMPT_TEMPLATE = """
-Rewrite the following startup idea into a structured, technical product description.
-
-Startup Idea:
-\"\"\"{idea}\"\"\"
-"""
-
 CORPUS_DESCRIPTION_PROMPT_TEMPLATE = """
 You're an AI assistant helping analyze early-stage AI startups for comparison with other startup ideas in the future. 
 Use your existing knowledge and the below product info to rewrite the startup description into a clear, concise, and technical product summary.
@@ -62,16 +54,6 @@ Product Description:
 
 
 # --- LLM Wrappers ---
-
-def standardize_idea(idea: str) -> str:
-    prompt = IDEA_PROMPT_TEMPLATE.format(idea=idea)
-    response = client.chat.completions.create(
-        model=LLM_MODEL_NAME,
-        messages=[{"role": "user", "content": prompt}]
-    )
-    return response.choices[0].message.content.strip()
-
-
 def build_prompt(entry: dict) -> str:
     match entry["type"]:
         case "description":
