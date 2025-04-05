@@ -8,7 +8,7 @@ from app.core.config import LLM_MODEL_NAME
 
 load_dotenv()
 
-client = Together(api_key=os.getenv("CORPUS_LLM_API_KEY"))
+client = Together(api_key=os.getenv("QUERY_LLM_API_KEY"))
 # --- Prompt Templates ---
 QUERY_EXPANSION_PROMPT_TEMPLATE = """
 Expand the following startup idea into {n_expansions} semantically diverse paraphrases. 
