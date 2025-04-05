@@ -9,7 +9,6 @@ from app.core.config import LLM_MODEL_NAME
 load_dotenv()
 
 client = Together(api_key=os.getenv("QUERY_EXPANSION_TOGETHER_API_KEY"))
-
 # --- Prompt Templates ---
 QUERY_EXPANSION_PROMPT_TEMPLATE = """
 You are an expert at rewriting startup ideas to generate semantically diverse paraphrases that aid in information retrieval.
