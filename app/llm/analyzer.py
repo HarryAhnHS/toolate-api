@@ -33,16 +33,17 @@ Your task is to analyze the idea based on the {n} similar products retrieved via
    Recommend smart ways the idea could be improved, better positioned, or focused to carve a niche. Use user comments as insight into *what’s missing or requested* in the market.
 
 4. **Score Uniqueness**  
-   Based on average L2 distance, match_percent, and product similarities, estimate a uniqueness score:
-   - `0 = nearly identical to existing products`
-   - `100 = completely original with no overlap`
-   Just return a number — no explanation.
+Based on average L2 distance, match_percent, and product similarities, estimate a uniqueness score from 0 to 100:
+- `0 = nearly identical to existing products`
+- `100 = completely original with no overlap`
+Return it as a number inside the section titled **Uniqueness Score**.
 
 ---
 
 ## Output Format (Markdown only)
 
-Respond with the following **Markdown sections only**:
+Respond with the following sections in markdown format. 
+The 4 headers MUST BE EXACTLY AS SHOWN, but use whatever markdown formatting you want for the content under each header:
 
 **Similarities**
 
@@ -92,10 +93,10 @@ def parse_markdown_sections(markdown: str) -> Dict[str, str]:
     buffer = []
 
     section_headers = {
-        "**Similarities**": "similarities",
-        "**Differences**": "differences",
-        "**Suggestions**": "suggestions",
-        "**Uniqueness Score**": "uniqueness_score"
+        "**similarities**": "similarities",
+        "**differences**": "differences",
+        "**suggestions**": "suggestions",
+        "**uniqueness Score**": "uniqueness_score"
     }
 
     for line in markdown.splitlines():
