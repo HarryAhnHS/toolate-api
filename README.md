@@ -203,7 +203,11 @@ Query results are injected into RAG prompt for analysis.
 
 ---
 
-## Environment Variables
+## Run Locally
+### Start Server
+`uvicorn app.main:app --reload`
+
+## Set Environment Variables
 ```env
 # 🔐 Together API Keys for LLM Calls
 CORPUS_LLM_API_KEY=your_primary_llm_key # Used for corpus standardization (automated calls and large rates)
@@ -222,7 +226,8 @@ PH_CLIENT_ID=your_ph_client_id
 PH_CLIENT_SECRET=your_ph_client_secret
 ```
 
-## Core.Config
+## app.core.config
+This is where all the indexing sentence-transformers, query expander, and indexing config lies.
 ```config
 import os
 
