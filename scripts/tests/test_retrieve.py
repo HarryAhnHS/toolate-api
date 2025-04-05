@@ -1,5 +1,5 @@
 # test script running on test_enhanced corpus + index, trained on about 1200 entries
-from app.services.retrieval import retrieve_top_k
+from app.services.retriever import retrieve_top_k
 
 def print_results(results):
     print("\n🧠 Top Description Matches:\n" + "-"*40)

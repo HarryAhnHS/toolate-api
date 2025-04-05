@@ -22,6 +22,7 @@ def generate_corpus_entry(post):
     entry = {
         "type": "description",
         "id": post_id,
+        "company_id": post_id,
         "text": post["description"].strip(),
         "createdAt": post["createdAt"],
         "meta": {
@@ -41,6 +42,7 @@ def generate_corpus_entry(post):
         comments.append({
             "type": "comment",
             "id": f"{post_id}_c{i+1}",
+            "company_id": post_id,
             "text": body.strip(),
             "meta": {
                 "parent_id": post_id, # to group chunks by post

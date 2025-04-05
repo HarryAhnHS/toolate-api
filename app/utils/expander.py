@@ -40,4 +40,4 @@ def expand_query(idea: str, n_expansions: int = 3) -> List[str]:
         model=LLM_MODEL_NAME,
         messages=[{"role": "user", "content": prompt}]
     )
-    return json.loads(response.choices[0].message.content.strip())
+    return json.loads(response.choices[0].message.content.strip()) #returns list of n_expansions strings

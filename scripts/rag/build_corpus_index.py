@@ -14,6 +14,7 @@ from app.core.config import EMBED_MODEL_NAME, INDEX_DIR, META_DIR, DESCRIPTION_I
 
 META_OUTPUT_DIR = META_DIR
 INDEX_OUTPUT_DIR = INDEX_DIR
+
 INDEX_SCHEMA = [{
     "type": "description",
     "index_path": DESCRIPTION_INDEX_PATH,
