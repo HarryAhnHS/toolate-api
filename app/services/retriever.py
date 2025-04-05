@@ -2,17 +2,18 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 from typing import List, Dict
 from dotenv import load_dotenv
+import json
 from app.utils.expander import expand_query
 
 load_dotenv()
 
 from app.core.faiss_loader import get_faiss_resources
-from app.core.config import EMBED_MODEL_NAME
+from app.core.config import EMBED_MODEL_NAME, RAW_CORPUS_PATH
 
 # Initialize the embedding model globally
 model = SentenceTransformer(EMBED_MODEL_NAME)
 
-def expand_query(raw_query: str, n_expansions: int = 3) -> List[str]:
+def create_query_expansions(raw_query: str, n_expansions: int = 3) -> List[str]:
     """Expand a user query into semantically diverse paraphrases."""
     try:
         expanded_queries = expand_query(raw_query, n_expansions)
@@ -35,48 +36,67 @@ def embed_queries(queries: List[str]) -> np.ndarray:
         num_workers=0
     )
 
-def dedupe_by_company(results: List[tuple], meta: List[Dict], top_k: int = 5) -> List[Dict]:
+def extract_product_description_meta(id: str) -> Dict:
     """
-    Deduplicate results by company. Group matches (description + comments) under each company.
-    For each company, keep all matches but sort companies by highest individual score.
+    Extract product metadata from a comment entry using raw_corpus (not enhanced).
+    In raw_corpus, all comments have a corresponding description entry, 
+    but not necessarily in enhanced_corpus, as we are randomly batching comments and descriptions.
+    """
+    total_corpus = json.load(open(RAW_CORPUS_PATH))
+    for entry in total_corpus:
+        if entry.get("company_id") == id:
+            return entry
+
+def dedupe_by_company(
+    results: List[tuple], 
+    desc_meta: List[Dict], 
+    comm_meta: List[Dict], 
+    top_k: int = 5
+) -> List[Dict]:
+    """
+    Group matches by companyId. Aggregate scores and return top_k unique companies.
     """
     company_groups = {}
 
-    for idx, score in results:
-        doc = meta[idx]
-        doc_type = doc.get("type")
-        
-        # Identify company ID
-        if doc_type == "description":
-            company_id = doc["id"]
-        elif doc_type == "comment":
-            company_id = doc["meta"]["parentId"]
-        else:
-            continue  # skip unknown types
-        
-        # Initialize group if necessary
+    print(f"Deduplicating {len(results)} results...")
+    for idx, score, source in results:
+        print(f"Processing result {idx} of {len(results)}: {score} from {source}")
+        doc = desc_meta[idx] if source == "description" else comm_meta[idx]
+        company_id = doc.get("company_id")
+
+        if not company_id:
+            continue
+
+        # Initialize company group if it doesn't exist
+        # Company groups are stored as a dictionary, each containing:
+        # - company_id: company ID
+        # - product_meta: metadata for the company - scraped once
+        # - min_score: minimum similarity score
+        # - matches: list of matches
         if company_id not in company_groups:
             company_groups[company_id] = {
                 "company_id": company_id,
-                "max_score": float(score), # max score for this company
+                "product_meta": doc if source == "description" else extract_product_description_meta(company_id),
+                "min_score": float(score),
                 "matches": []
             }
 
-        # Always store matches and metadata
+        # Matches are stored as a list of dictionaries, each containing:
+        # - type: "description" or "comment"
+        # - score: similarity score
+        # - match_meta: metadata for the matched document
         company_groups[company_id]["matches"].append({
-            "type": doc_type,
+            "type": source,
             "score": float(score),
-            "metadata": doc
+            "match_meta": doc
         })
 
-        # Update score if this match is better
-        if score > company_groups[company_id]["max_score"]:
-            company_groups[company_id]["max_score"] = float(score)
-            if doc_type == "description":
-                company_groups[company_id]["metadata"] = doc  # keep richer info
+        # Update minimum score if current match is better
+        if score < company_groups[company_id]["min_score"]:
+            company_groups[company_id]["min_score"] = float(score)
 
-    # Return top_k companies sorted by best individual match score
-    return sorted(company_groups.values(), key=lambda x: x["max_score"], reverse=True)[:top_k]
+    # Return top_k companies sorted by minimum score
+    return sorted(company_groups.values(), key=lambda x: x["min_score"])[:top_k]
 
 
 def retrieve_top_k(raw_query: str, top_k: int = 5) -> List[Dict]:
@@ -85,7 +105,7 @@ def retrieve_top_k(raw_query: str, top_k: int = 5) -> List[Dict]:
     across both description and comment indexes, ranked by similarity.
     """
     # -----EXPAND & EMBED QUERY-----
-    expanded_queries = expand_query(raw_query)  # expand raw query into n_expansions strings
+    expanded_queries = create_query_expansions(raw_query)  # expand raw query into n_expansions strings
     query_vecs = embed_queries(expanded_queries)  # embed all expansions
 
     # -----LOAD INDEXES-----
@@ -94,15 +114,19 @@ def retrieve_top_k(raw_query: str, top_k: int = 5) -> List[Dict]:
 
     # -----SEARCH EACH EXPANSION-----
     all_results = []
+    search_limit = top_k * 2  # to increase candidate pool and avoid company overlap
+
     for vec in query_vecs:
         vec = vec.reshape(1, -1)  # (dim,) → (1, dim) for FAISS
-        desc_scores, desc_indices = desc_index.search(vec, top_k)
-        comm_scores, comm_indices = comm_index.search(vec, top_k)
+        desc_scores, desc_indices = desc_index.search(vec, search_limit)
+        comm_scores, comm_indices = comm_index.search(vec, search_limit)
+        for idx, i in enumerate(desc_indices[0]):
+            all_results.append((i, desc_scores[0][idx], "description"))
 
-        all_results.extend([(i, desc_scores[0][idx]) for idx, i in enumerate(desc_indices[0])])
-        all_results.extend([(i, comm_scores[0][idx]) for idx, i in enumerate(comm_indices[0])])
+        for idx, i in enumerate(comm_indices[0]):
+            all_results.append((i, comm_scores[0][idx], "comment"))
+
 
     # -----DEDUPLICATE & SORT COMBINED RESULTS-----
     # Merge both sources and return unified top_k list
-    combined_meta = desc_meta + comm_meta  # assume IDs don't overlap
-    return dedupe_by_company(all_results, combined_meta, top_k=top_k)
+    return dedupe_by_company(all_results, desc_meta, comm_meta, top_k=top_k)

@@ -16,3 +16,8 @@ COMMENT_INDEX_PATH     = os.path.join(INDEX_DIR, "comment_index.faiss")
 META_DIR = "app/data/rag/meta"
 DESCRIPTION_META_PATH = os.path.join(META_DIR, "desc_metadata.json")
 COMMENT_META_PATH = os.path.join(META_DIR, "comment_metadata.json")
+
+# === Corpus paths ===
+CORPUS_DIR = "app/data/corpus"
+RAW_CORPUS_PATH = os.path.join(CORPUS_DIR, "ph_raw_corpus.json")
+ENHANCED_CORPUS_PATH = os.path.join(CORPUS_DIR, "ph_enhanced_corpus.json")
