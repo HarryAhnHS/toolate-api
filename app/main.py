@@ -1,17 +1,6 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from app.routes import query, analyze
 
 app = FastAPI()
-
-class IdeaRequest(BaseModel):
-    input: str
-
-@app.post("/eval")
-def evaluate_idea(data: IdeaRequest):
-    # Placeholder response
-    return {
-        "score": 83,
-        "similar_startups": ["Stripe", "Plaid", "Unit"],
-        "feedback": "Your idea overlaps with existing fintech tools...",
-        "pivot_suggestion": "Consider focusing on API security for banks."
-    }
+app.include_router(query.router, prefix="/api")
+app.include_router(analyze.router, prefix="/api")
