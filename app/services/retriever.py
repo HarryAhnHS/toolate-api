@@ -14,7 +14,7 @@ from app.core.config import EMBED_MODEL_NAME, RAW_CORPUS_PATH
 # Initialize the embedding model globally
 model = SentenceTransformer(EMBED_MODEL_NAME)
 
-def create_query_expansions(raw_query: str, n_expansions: int = 3) -> List[str]:
+def create_query_expansions(raw_query: str, n_expansions: int = 2) -> List[str]:
     """Expand a user query into semantically diverse paraphrases."""
     try:
         expanded_queries = expand_query(raw_query, n_expansions)

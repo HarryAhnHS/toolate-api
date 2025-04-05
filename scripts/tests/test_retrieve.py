@@ -9,7 +9,7 @@ def print_results(results: List[Dict]):
         product_meta = company['product_meta']
         print(f"🏢 Company: {product_meta['meta']['name']}")
         print(f"🏢 Company website: {product_meta['meta']['website']}")
-        print(f"⭐ Best Match Similarity Score: {min_score:.4f}")
+        print(f"⭐ Closest L2 Distance: {min_score:.4f}")
 
         for match in company["matches"]:
             match_meta = match["match_meta"]
@@ -24,9 +24,9 @@ def print_results(results: List[Dict]):
 
                 print(f"\n🔹 [Description: {name}]")
                 print(f"   Score: {score:.4f}")
-                print(f"   Original description: {description[:50]}...")
+                print(f"   Original description: {description[:500]}...")
                 print(f"   Tags: {tags}")
-                print(f"   Standardized description: {summary[:50]}...")
+                print(f"   Standardized description: {summary[:500]}...")
             elif match_type == "comment":
                 product_name = match_meta['meta'].get("parent_name", "Unknown")
                 comment = match_meta['text']
@@ -34,8 +34,8 @@ def print_results(results: List[Dict]):
 
                 print(f"\n💬 [Comment on: {product_name}]")
                 print(f"   Score: {score:.4f}")
-                print(f"   Original comment: {comment[:50]}...")
-                print(f"   Standardized comment: {summary[:50]}...")
+                print(f"   Original comment: {comment[:500]}...")
+                print(f"   Standardized comment: {summary[:500]}...")
 
         print("\n" + "-"*40)
 
