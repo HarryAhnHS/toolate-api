@@ -113,9 +113,17 @@ def enhance_corpus():
             if batch_num % CACHE_EVERY_N_BATCHES == 0:
                 save_checkpoint(enhanced_corpus, batch_num)
         except Exception as e:
+            error_msg = str(e).lower()
             print(f"❌ Error in batch {batch_num}: {e}")
+            # Check for rate limit-related error and exit
+            if "rate limit" in error_msg or "429" in error_msg or "too many requests" in error_msg:
+                print("⛔ Rate limit detected. Exiting to avoid further issues.")
+                save_corpus(OUTPUT_FILE, enhanced_corpus)
+                sys.exit(1)
             continue
 
+    # Save final checkpoint
+    save_checkpoint(enhanced_corpus, total_batches)
     print(f"\n✅ All done. Enhanced corpus saved to {OUTPUT_FILE}")
 
 if __name__ == "__main__":

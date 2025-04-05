@@ -144,7 +144,8 @@ Each entry:
 
 ### Enhancement Metrics (as of April 2025)
 - Total unique entries in raw: 80,650
-- ~2000 unique enhanced entries saved in `ph_enhanced_corpus.json`, which current RAG uses
+- ~6200 unique enhanced entries saved in `ph_enhanced_corpus.json`, which current RAG uses
+    - ~2500: 3700 desc:comment ratio
 
 ---
 
@@ -250,7 +251,7 @@ ENHANCED_CORPUS_PATH = os.path.join(CORPUS_DIR, "ph_enhanced_corpus.json")
 
 ---
 
-## 📊 Highlights
+## 📊 MVP Highlights
 - Full-stack vertical RAG pipeline from real-time web data
 - Owns scraping → enhancement → indexing → querying → feedback loop
 - Handles hard LLM blindspots (post-2023 startups)
@@ -261,9 +262,8 @@ ENHANCED_CORPUS_PATH = os.path.join(CORPUS_DIR, "ph_enhanced_corpus.json")
 ---
 
 ## 🛣️ Next Steps
-- ✨ Cross-encoder reranking to improve semantic precision
-- 🌍 Add Indie Hackers + Crunchbase scraping
-- 🗣️ Add founder profiles, inferred tech stack, pricing tiers
-- 📁 Export startup cards as PDFs or Notion snippets
+- Locally host and deploy scalable + fast fine-tuned LLM for internal enhancement
+- Diversify sources: Indie Hackers, Failory, Twitter etc.
+- Cross-encoder reranking to improve semantic precision
 
 ---

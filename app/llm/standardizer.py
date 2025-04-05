@@ -78,7 +78,7 @@ def build_prompt(entry: dict) -> str:
 def call_llm_with_retry(prompt: str, retries: int = 2, delay: float = 2.0) -> str:
     for attempt in range(retries):
         try:
-            time.sleep(1)  # 🧘 1 QPS throttle
+            time.sleep(2)  # 🧘 1 QPS throttle
             response = client.chat.completions.create(
                 model=LLM_MODEL_NAME,
                 messages=[{"role": "user", "content": prompt}],
