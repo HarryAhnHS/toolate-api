@@ -28,6 +28,7 @@ def generate_corpus_entry(post):
         "meta": {
             "name": post["name"],
             "url": post["url"],
+            "website": post["website"],
             "source": "producthunt",
             "createdAt": post["createdAt"],
             "tags": extract_tags(post.get("topics"))
@@ -49,6 +50,7 @@ def generate_corpus_entry(post):
                 "parent_name": post["name"],
                 "parent_description": post["description"].strip(),
                 "parent_url": post["url"],
+                "parent_website": post["website"],
                 "parent_createdAt": post["createdAt"],
                 "parent_tags": extract_tags(post.get("topics"))
             }
