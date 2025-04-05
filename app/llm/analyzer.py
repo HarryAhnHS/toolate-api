@@ -38,18 +38,20 @@ Respond in markdown format with the following sections and nothing else.
 def format_company_block(company: Dict, index: int) -> str:
     product_meta = company["product_meta"]
     product_name = product_meta["meta"]["name"]
+    product_tags = ", ".join(product_meta["meta"]["tags"])
     website = product_meta["meta"]["website"]
     min_score = company["min_score"]
+    match_percent = company["match_percent"]
 
     block = f"### {index}. {product_name} ({website})\n"
+    block += f"- Tags: {product_tags}\n"
     block += f"- Closest L2 distance: {min_score:.4f}\n"
-
+    block += f"- Match percent: {match_percent:.2f}\n"
     for match in company["matches"]:
         match_type = match["type"]
         score = match["score"]
         match_meta = match["match_meta"]
         summary = match_meta.get("standardized", "[No summary]")
-
         if match_type == "description":
             block += f"- 🧾 Description L2 distance (score: {score:.4f}):\n  {summary}\n\n"
         elif match_type == "comment":

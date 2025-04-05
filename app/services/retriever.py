@@ -80,8 +80,11 @@ def dedupe_by_company(
                 "company_id": company_id,
                 "product_meta": doc if source == "description" else extract_product_description_meta(company_id),
                 "min_score": float(score),
+                "matches": [],
+
+                # metrics that are calculated after deduplication
                 "match_percent": 0,
-                "matches": []
+                "avg_score": 0,
             }
 
         # Matches are stored as a list of dictionaries, each containing:
@@ -98,7 +101,7 @@ def dedupe_by_company(
         if score < company_groups[company_id]["min_score"]:
             company_groups[company_id]["min_score"] = float(score)
 
-    # Calculate match_percent for each company
+    # Calculate avg_score and match_percent for each company
     # Normalize l2 distance to [0.3,1.3] and invert to get match_percent
     L2_MIN = 0.3
     L2_MAX = 1.3
@@ -108,7 +111,7 @@ def dedupe_by_company(
         normalized = (avg_l2 - L2_MIN) / (L2_MAX - L2_MIN)
         clamped = max(0, min(1, normalized))
         company["match_percent"] = 1.0 - clamped
-
+        company["avg_score"] = avg_l2
     # Return top_k companies sorted by minimum score + uniqueness score
     return sorted(company_groups.values(), key=lambda x: x["match_percent"])[:top_k], calculate_uniqueness(company_groups.values(), top_k)
 
