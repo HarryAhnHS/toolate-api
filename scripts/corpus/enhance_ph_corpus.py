@@ -1,7 +1,7 @@
 import json, os, signal, sys
 from tqdm import tqdm
 from datetime import datetime
-from app.utils.standardizer import standardize_batch
+from app.llm.standardizer import standardize_batch
 import random
 
 INPUT_FILE = "app/data/corpus/ph_raw_corpus.json"

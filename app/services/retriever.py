@@ -3,8 +3,8 @@ from sentence_transformers import SentenceTransformer
 from typing import List, Dict
 from dotenv import load_dotenv
 import json
-from app.utils.expander import expand_query
-from app.utils.evaluator import calculate_uniqueness
+from app.llm.expander import expand_query
+from app.llm.evaluator import calculate_uniqueness
 
 load_dotenv()
 

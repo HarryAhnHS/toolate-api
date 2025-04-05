@@ -11,7 +11,7 @@ from app.core.config import LLM_MODEL_NAME
 
 load_dotenv()
 
-client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
+client = Together(api_key=os.getenv("CORPUS_LLM_API_KEY"))
 
 CORPUS_DESCRIPTION_PROMPT_TEMPLATE = """
 You're an AI assistant helping analyze early-stage AI startups for comparison with other startup ideas in the future. 
