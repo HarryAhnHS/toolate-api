@@ -6,25 +6,43 @@ from app.core.config import LLM_MODEL_NAME
 
 client = Together(api_key=os.getenv("QUERY_LLM_API_KEY"))
 
-ANALYSIS_PROMPT_TEMPLATE = """
-You are an AI startup analyst.
-A user submitted this startup idea:
+ANALYSIS_PROMPT_TEMPLATE =ANALYSIS_PROMPT_TEMPLATE = """
+You are an expert analyst for AI startup ideas.
+
+A user submitted the following startup idea:
 \"\"\"{idea}\"\"\"
 
-Below are {n} similar products retrieved via semantic search. 
-Each includes a standardized summary and optionally product comments / descriptions.
+Your task is to analyze the idea based on the {n} similar products retrieved via semantic search. Each product includes:
+- L2 similarity scores (lower = more similar)
+- Product tags (representing industry, niche, or feature set)
+- Standardized summaries of descriptions and/or user comments
 
 {company_blocks}
 
-Your task (depending on the vagueness/specificity of the user's idea):
-1. Analyze and summarize what common themes or features exist between the user's idea and these products.
-2. Explain how the user’s idea is different or uniquely positioned.
-3. Suggest improvements, pivots, or differentiation strategies the user could explore.
-4. Offer a numerical score between 0 and 100 for how unique the user's idea is compared to the retrieved products.
+---
 
-Within each section, feel free to use any markdown formatting that you see fit.
-For uniqueness score, respond a single number between 0 and 100, where 0 is the most similar and 100 is the most unique.
-Respond in markdown format with the following sections and nothing else. 
+## What to do:
+
+1. **Compare Themes**  
+   Look for recurring patterns in product tags, summaries, or features across all retrieved products. Summarize what *shared elements* the user’s idea seems to align with.
+
+2. **Identify Distinctions**  
+   Note how the user’s idea stands apart in terms of features, audience, technology, or scope — especially if there are large L2 distances or missing themes.
+
+3. **Suggest Improvements**  
+   Recommend smart ways the idea could be improved, better positioned, or focused to carve a niche. Use user comments as insight into *what’s missing or requested* in the market.
+
+4. **Score Uniqueness**  
+   Based on average L2 distance, match_percent, and product similarities, estimate a uniqueness score:
+   - `0 = nearly identical to existing products`
+   - `100 = completely original with no overlap`
+   Just return a number — no explanation.
+
+---
+
+## Output Format (Markdown only)
+
+Respond with the following **Markdown sections only**:
 
 **Similarities**
 
@@ -35,17 +53,20 @@ Respond in markdown format with the following sections and nothing else.
 **Uniqueness Score**
 """
 
+
 def format_company_block(company: Dict, index: int) -> str:
     product_meta = company["product_meta"]
     product_name = product_meta["meta"]["name"]
     product_tags = ", ".join(product_meta["meta"]["tags"])
     website = product_meta["meta"]["website"]
     min_score = company["min_score"]
+    avg_score = company["avg_score"]
     match_percent = company["match_percent"]
 
     block = f"### {index}. {product_name} ({website})\n"
     block += f"- Tags: {product_tags}\n"
     block += f"- Closest L2 distance: {min_score:.4f}\n"
+    block += f"- Avg L2 distance: {avg_score:.4f}\n"
     block += f"- Match percent: {match_percent:.2f}\n"
     for match in company["matches"]:
         match_type = match["type"]
@@ -71,10 +92,10 @@ def parse_markdown_sections(markdown: str) -> Dict[str, str]:
     buffer = []
 
     section_headers = {
-        "**similarities**": "similarities",
-        "**differences**": "differences",
-        "**suggestions**": "suggestions",
-        "**uniqueness score**": "uniqueness_score"
+        "**Similarities**": "similarities",
+        "**Differences**": "differences",
+        "**Suggestions**": "suggestions",
+        "**Uniqueness Score**": "uniqueness_score"
     }
 
     for line in markdown.splitlines():

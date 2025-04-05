@@ -15,8 +15,8 @@ class ProductMetadata(BaseModel):
 
 class CompanyGroup(BaseModel):
     min_score: float
-    match_percent: float
     avg_score: float
+    match_percent: float
     product_meta: ProductMetadata
     matches: List[MatchMetadata]
 
