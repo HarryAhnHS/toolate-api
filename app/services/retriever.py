@@ -73,12 +73,14 @@ def dedupe_by_company(
         # - company_id: company ID
         # - product_meta: metadata for the company - scraped once
         # - min_score: minimum similarity score
+        # - match_percent: percentage of matches found in the company
         # - matches: list of matches
         if company_id not in company_groups:
             company_groups[company_id] = {
                 "company_id": company_id,
                 "product_meta": doc if source == "description" else extract_product_description_meta(company_id),
                 "min_score": float(score),
+                "match_percent": 0,
                 "matches": []
             }
 
@@ -96,8 +98,19 @@ def dedupe_by_company(
         if score < company_groups[company_id]["min_score"]:
             company_groups[company_id]["min_score"] = float(score)
 
+    # Calculate match_percent for each company
+    # Normalize l2 distance to [0.3,1.3] and invert to get match_percent
+    L2_MIN = 0.3
+    L2_MAX = 1.3
+    for company in company_groups.values():
+        # average l2 distance of all matches
+        avg_l2 = sum(match["score"] for match in company["matches"]) / len(company["matches"])
+        normalized = (avg_l2 - L2_MIN) / (L2_MAX - L2_MIN)
+        clamped = max(0, min(1, normalized))
+        company["match_percent"] = 1.0 - clamped
+
     # Return top_k companies sorted by minimum score + uniqueness score
-    return sorted(company_groups.values(), key=lambda x: x["min_score"])[:top_k], calculate_uniqueness(company_groups.values(), top_k)
+    return sorted(company_groups.values(), key=lambda x: x["match_percent"])[:top_k], calculate_uniqueness(company_groups.values(), top_k)
 
 
 def retrieve_top_k(raw_query: str, top_k: int = 5) -> List[Dict]:
