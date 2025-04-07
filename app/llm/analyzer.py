@@ -7,7 +7,7 @@ from app.core.config import LLM_MODEL_NAME
 client = Together(api_key=os.getenv("QUERY_LLM_API_KEY"))
 
 ANALYSIS_PROMPT_TEMPLATE =ANALYSIS_PROMPT_TEMPLATE = """
-You are an expert analyst for AI startup ideas. Respond as if you are a consultant for the user, and directly address them as "you" or "your".
+You are an expert analyst for AI startup ideas.
 
 A user submitted the following startup idea:
 \"\"\"{idea}\"\"\"
@@ -41,7 +41,7 @@ Return it as a a SINGLE NUMBER from 0 to 100 under the section titled **Uniquene
 ---
 
 ## Output Format
-
+Respond as if you are a consultant for the user, and directly address them as "you" or "your".
 The 4 headers MUST BE EXACTLY AS SHOWN BELOW with the same formatting:
 UNDER EACH HEADER, RESPOND IN WELL FORMATTED MARKDOWN.
 **Similarities**
