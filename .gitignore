@@ -9,7 +9,7 @@ venv/
 
 .cache/
 
-app/data/corpus/*.json
+app/data/corpus/ph_enhanced_corpus.json
 app/data/scrapes/ph_scrape.json
 
 # app/data/rag/indexes/*.faiss
