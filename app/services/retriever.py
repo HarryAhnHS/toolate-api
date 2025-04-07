@@ -102,16 +102,22 @@ def dedupe_by_company(
             company_groups[company_id]["min_score"] = float(score)
 
     # Calculate avg_score and match_percent for each company
-    # Normalize l2 distance to [0.3,1.3] and invert to get match_percent
-    L2_MIN = 0.3
-    L2_MAX = 1.3
+    # Normalize l2 distance with dynamic range and invert to get match_percent
+    all_l2 = [match["score"] for company in company_groups.values() for match in company["matches"]]
+    L2_MIN = min(all_l2)
+    L2_MAX = max(all_l2)
+
     for company in company_groups.values():
-        # average l2 distance of all matches
-        avg_l2 = sum(match["score"] for match in company["matches"]) / len(company["matches"])
-        normalized = (avg_l2 - L2_MIN) / (L2_MAX - L2_MIN)
-        clamped = max(0, min(1, normalized))
-        company["match_percent"] = 1.0 - clamped
+        avg_l2 = sum(m["score"] for m in company["matches"]) / len(company["matches"])
         company["avg_score"] = avg_l2
+        
+        # Normalize with batch range
+        if L2_MAX != L2_MIN:
+            normalized = (avg_l2 - L2_MIN) / (L2_MAX - L2_MIN)
+        else:
+            normalized = 0.0  # all the same
+        company["match_percent"] = round(1.0 - normalized, 4)
+
     # Return top_k companies sorted by minimum score + uniqueness score
     return sorted(company_groups.values(), key=lambda x: x["match_percent"])[:top_k], calculate_uniqueness(company_groups.values(), top_k)
 
