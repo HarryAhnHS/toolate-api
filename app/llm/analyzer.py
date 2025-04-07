@@ -43,7 +43,7 @@ Return it as a a SINGLE NUMBER from 0 to 100 under the section titled **Uniquene
 ## Output Format
 
 The 4 headers MUST BE EXACTLY AS SHOWN BELOW with the same formatting:
-Under each header, respond in markdown format. 
+UNDER EACH HEADER, RESPOND IN WELL FORMATTED MARKDOWN.
 **Similarities**
 
 **Differences**

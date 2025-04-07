@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import List, Dict, Any
 from app.services.analyzer import generate_analysis
@@ -31,7 +32,7 @@ class AnalysisResponse(BaseModel):
 @router.post("/analyze", response_model=AnalysisResponse)
 def analyze(request: AnalysisRequest):
     analysis = generate_analysis(request.idea, [company.model_dump() for company in request.results])
-    return {
+    return JSONResponse(content={
         "idea": request.idea,
         "analysis": analysis["analysis"]
-    }
+    })
