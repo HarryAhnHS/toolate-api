@@ -119,7 +119,7 @@ def dedupe_by_company(
         company["match_percent"] = round(1.0 - normalized, 4)
 
     # Return top_k companies sorted by minimum score + uniqueness score
-    return sorted(company_groups.values(), key=lambda x: x["match_percent"])[:top_k], calculate_uniqueness(company_groups.values(), top_k)
+    return sorted(company_groups.values(), key=lambda x: x["match_percent"], reverse=True)[:top_k], calculate_uniqueness(company_groups.values(), top_k)
 
 
 def retrieve_top_k(raw_query: str, top_k: int = 5) -> List[Dict]:
