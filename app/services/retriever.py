@@ -64,6 +64,7 @@ def dedupe_by_company(
     for idx, score, source in results:
         doc = desc_meta[idx] if source == "description" else comm_meta[idx]
         company_id = doc.get("company_id")
+        source_id = doc.get("id")
 
         if not company_id:
             continue
@@ -91,11 +92,23 @@ def dedupe_by_company(
         # - type: "description" or "comment"
         # - score: similarity score
         # - match_meta: metadata for the matched document
-        company_groups[company_id]["matches"].append({
-            "type": source,
-            "score": float(score),
-            "match_meta": doc
-        })
+        # Use a mapping from source_id to match index for fast lookup
+        existing_ids = {match["match_meta"]["id"]: idx for idx, match in enumerate(company_groups[company_id]["matches"])}
+
+        if source_id in existing_ids:
+            existing_match = company_groups[company_id]["matches"][existing_ids[source_id]]
+            # Keep the lower (better) L2 score
+            if score < existing_match["score"]:
+                existing_match["score"] = float(score)
+                existing_match["match_meta"] = doc
+        else:
+            company_groups[company_id]["matches"].append({
+                "type": source,
+                "score": float(score),
+                "match_meta": doc
+            })
+
+            
 
         # Update minimum score if current match is better
         if score < company_groups[company_id]["min_score"]:
