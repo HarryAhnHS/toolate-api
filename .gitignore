@@ -9,11 +9,8 @@ venv/
 
 .cache/
 
-app/data/rag/*.faiss
-app/data/rag/*.npy
-
 app/data/corpus/*.json
 app/data/scrapes/ph_scrape.json
 
-app/data/rag/indexes/*.faiss
-app/data/rag/meta/*.json
+# app/data/rag/indexes/*.faiss
+# app/data/rag/meta/*.json
