@@ -1,4 +1,8 @@
 # toolate-api
+
+**Live Deployment:** [https://toolate.up.railway.app/](https://toolate.up.railway.app/)  
+**Frontend Repo:** [https://github.com/HarryAhnHS/toolate-client](https://github.com/HarryAhnHS/toolate-client)
+
 > Helping AI builders, hackathon devs, and startup dreamers discover what hasn't been done.
 
 ---
