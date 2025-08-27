@@ -18,10 +18,18 @@ app.add_middleware(
 )
 
 @app.middleware("http")
-async def log_origin_header(request: Request, call_next):
-    print("Incoming Origin:", request.headers.get("origin"))
-    response = await call_next(request)
-    return response
+async def log_response(request, call_next):
+    resp = await call_next(request)
+
+    body = b""
+    async for chunk in resp.body_iterator:
+        body += chunk
+    # log it
+    print("🧾 Raw model output:\n", body.decode(errors="ignore"))
+    # re-create the response so client still gets it
+    from starlette.responses import Response
+    return Response(content=body, status_code=resp.status_code, headers=dict(resp.headers), media_type=resp.media_type)
+
 
 app.include_router(query.router, prefix="/api")
 app.include_router(analyze.router, prefix="/api")
