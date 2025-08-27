@@ -1,12 +1,13 @@
 from typing import List, Dict
 from together import Together
 import os
+import json
 
 from app.core.config import LLM_MODEL_NAME
 
 client = Together(api_key=os.getenv("QUERY_LLM_API_KEY"))
 
-ANALYSIS_PROMPT_TEMPLATE =ANALYSIS_PROMPT_TEMPLATE = """
+ANALYSIS_PROMPT_TEMPLATE = """
 You are an expert analyst for AI startup ideas.
 
 A user submitted the following startup idea:
@@ -24,33 +25,33 @@ Your task is to analyze the idea based on the {n} similar products retrieved via
 ## What to do:
 
 1. **Compare Themes**  
-   Look for recurring patterns in product tags, summaries, or features across all retrieved products. Summarize what *shared elements* the user’s idea seems to align with.
+   Look for recurring patterns in product tags, summaries, or features across all retrieved products. Summarize what *shared elements* the user's idea seems to align with.
 
 2. **Identify Distinctions**  
-   Note how the user’s idea stands apart in terms of features, audience, technology, or scope — especially if there are large L2 distances or missing themes.
+   Note how the user's idea stands apart in terms of features, audience, technology, or scope — especially if there are large L2 distances or missing themes.
 
 3. **Suggest Improvements**  
-   Recommend smart ways the idea could be improved, better positioned, or focused to carve a niche. Use user comments as insight into *what’s missing or requested* in the market.
+   Recommend smart ways the idea could be improved, better positioned, or focused to carve a niche. Use user comments as insight into *what's missing or requested* in the market.
 
 4. **Uniqueness Score**  
-Based on average L2 distance, match_percent, and product similarities, estimate a uniqueness score from 0 to 100:
-- `0 = nearly identical to existing products`
-- `100 = completely original with no overlap`
-Return it as a a SINGLE NUMBER from 0 to 100 under the section titled **Uniqueness**. NO EXPLANATION IS NEEDED.
+   Based on average L2 distance, match_percent, and product similarities, estimate a uniqueness score from 0 to 100:
+   - `0 = nearly identical to existing products`
+   - `100 = completely original with no overlap`
 
 ---
 
 ## Output Format
 Respond as if you are a consultant for the user, and directly address them as "you" or "your".
-The 4 headers MUST BE EXACTLY AS SHOWN BELOW with the same formatting:
-UNDER EACH HEADER, RESPOND IN WELL FORMATTED MARKDOWN.
-**Similarities**
+Return your analysis as a JSON object with the following structure:
 
-**Differences**
+{{
+  "similarities": "Your analysis of shared themes and patterns (in markdown format)",
+  "differences": "Your analysis of how the idea stands apart (in markdown format)", 
+  "suggestions": "Your recommendations for improvement (in markdown format)",
+  "uniqueness_score": "A single number from 0 to 100 (as a string)"
+}}
 
-**Suggestions**
-
-**Uniqueness**
+IMPORTANT: Return ONLY the JSON object, no additional text before or after.
 """
 
 
@@ -80,40 +81,47 @@ def format_company_block(company: Dict, index: int) -> str:
 
     return block.strip()
 
-def parse_markdown_sections(markdown: str) -> Dict[str, str]:
-    sections = {
-        "similarities": "",
-        "differences": "",
-        "suggestions": "",
-        "uniqueness_score": ""
-    }
-
-    current_key = None
-    buffer = []
-
-    section_headers = {
-        "**similarities**": "similarities",
-        "**differences**": "differences",
-        "**suggestions**": "suggestions",
-        "**uniqueness**": "uniqueness_score"
-    }
-
-    for line in markdown.splitlines():
-        line = line.strip()
-        lower_line = line.lower()
-
-        if lower_line in section_headers:
-            if current_key:
-                sections[current_key] = "\n".join(buffer).strip()
-            current_key = section_headers[lower_line]
-            buffer = []
-        elif current_key:
-            buffer.append(line)
-
-    if current_key and buffer:
-        sections[current_key] = "\n".join(buffer).strip()
-
-    return sections
+def parse_json_response(json_str: str) -> Dict[str, str]:
+    """Parse JSON response from LLM, with fallback handling for malformed JSON."""
+    try:
+        # Try to parse as JSON directly
+        parsed = json.loads(json_str.strip())
+        
+        # Ensure all required keys are present with default values
+        result = {
+            "similarities": parsed.get("similarities", ""),
+            "differences": parsed.get("differences", ""),
+            "suggestions": parsed.get("suggestions", ""),
+            "uniqueness_score": str(parsed.get("uniqueness_score", "0"))
+        }
+        
+        return result
+        
+    except json.JSONDecodeError:
+        # Fallback: try to extract JSON from the response if it's wrapped in other text
+        import re
+        json_match = re.search(r'\{.*\}', json_str, re.DOTALL)
+        if json_match:
+            try:
+                parsed = json.loads(json_match.group())
+                result = {
+                    "similarities": parsed.get("similarities", ""),
+                    "differences": parsed.get("differences", ""),
+                    "suggestions": parsed.get("suggestions", ""),
+                    "uniqueness_score": str(parsed.get("uniqueness_score", "0"))
+                }
+                return result
+            except json.JSONDecodeError:
+                pass
+        
+        # Final fallback: return empty structure
+        print(f"⚠️ Failed to parse JSON response: {json_str[:200]}...")
+        return {
+            "similarities": "Error parsing response",
+            "differences": "Error parsing response", 
+            "suggestions": "Error parsing response",
+            "uniqueness_score": "0"
+        }
 
 def generate_analysis(idea: str, results: List[Dict], model_name=LLM_MODEL_NAME) -> Dict:
     if not results:
@@ -145,7 +153,7 @@ def generate_analysis(idea: str, results: List[Dict], model_name=LLM_MODEL_NAME)
     raw_output = response.choices[0].message.content.strip()
     print("🧾 Raw model output:\n", raw_output)
 
-    parsed = parse_markdown_sections(raw_output)
+    parsed = parse_json_response(raw_output)
 
     return {
         "idea": idea,

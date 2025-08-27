@@ -25,7 +25,7 @@ async def log_response(request, call_next):
     async for chunk in resp.body_iterator:
         body += chunk
     # log it
-    print("🧾 Raw model output:\n", body.decode(errors="ignore"))
+    print("📡 API Response:\n", body.decode(errors="ignore"))
     # re-create the response so client still gets it
     from starlette.responses import Response
     return Response(content=body, status_code=resp.status_code, headers=dict(resp.headers), media_type=resp.media_type)
